@@ -1,0 +1,1279 @@
+/* UX4G is not linked. Decision 29 Aug 2026: its 152-file CSS chain gave this
+   header ~10 % of its styling and 0 % of its behaviour. What we keep from it:
+   the token VALUES below (Figma was drawn on them, names kept for provenance)
+   and the Noto Sans variable font file, still served from cdn.ux4g.gov.in so
+   the one-origin rule holds. */
+@font-face {
+  font-family: "Noto Sans";
+  src: url("https://cdn.ux4g.gov.in/UX4G@3.1.0/assets/fonts/NotoSans.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Tokens. Names are UX4G 3.1.0 token names, values copied from its stylesheet. */
+
+:root {
+  --ux4g-color-primary-600: #4a2bc2;
+  --ux4g-color-neutral-0: #ffffff;
+  --ux4g-color-neutral-50: #fafafa;
+  --ux4g-color-neutral-100: #f5f5f5;
+  --ux4g-color-neutral-200: #e5e5e5;
+  --ux4g-color-neutral-500: #737373;
+  --ux4g-color-neutral-900: #171717;
+  --ux4g-font-family-base: "Noto Sans", system-ui, sans-serif;
+
+  /* Figma colours UX4G does not have */
+  --ep-bar-bg: #12102e;
+  --ep-bar-divider: #8c7ad9;
+  --ep-bar-active: rgba(229, 229, 229, 0.18);
+  --ep-badge-red: #de333d;
+  --ep-ease-out: cubic-bezier(0.16, 1, 0.3, 1);   /* exponential ease-out */
+  --ep-primary-hover: #3d239f;                     /* UX4G primary-700 */
+  --ep-ink-tint-6: rgba(23, 23, 23, 0.06);
+  --ep-nav-muted: #525252;                         /* UX4G muted-foreground, neutral-600 */
+  --ep-ink-tint-4: rgba(23, 23, 23, 0.04);
+  --ep-card-border: #d9dbe0;                       /* Figma 102:172 stroke */
+  --ep-card-ink: #1c1f21;                          /* Figma card title */
+  --ep-card-muted: #666e73;                        /* Figma #6b7378 darkened one step: 4.76:1 on #f5f5f5 (was 4.43) */
+  --ep-card-hover-bg: #f9f8fe;                     /* primary at ~3 % on white */
+
+  /* Type scale (owner rule: nothing below 11, whole numbers). Locked 29 Aug 2026. */
+  --ep-text-xs: 11px;  --ep-leading-xs: 15px;   /* card description, badge (14) */
+  --ep-text-sm: 12px;  --ep-leading-sm: 16px;   /* bar, nav, card title (17) */
+  --ep-text-md: 14px;  --ep-leading-md: 20px;   /* body, section title, inputs */
+  --ep-text-lg: 16px;  --ep-leading-lg: 20px;   /* primary button, page copy */
+  --ep-weight-regular: 400;
+  --ep-weight-medium: 500;
+  --ep-weight-semibold: 600;   /* owner: nothing above 600 */
+
+  /* Spacing scale: multiples of 4 only (owner). */
+  --ep-space-1: 4px;
+  --ep-space-2: 8px;
+  --ep-space-3: 12px;
+  --ep-space-4: 16px;
+  --ep-space-6: 24px;
+
+  /* Radii: 4 controls, 8 cards/buttons, pill for chips */
+  --ep-radius-sm: 4px;
+  --ep-radius-md: 8px;
+  --ep-radius-pill: 9999px;
+}
+
+::selection { background: #dcd4ff; color: #171717; }   /* UX4G primary-100 */
+
+html, body { margin: 0; }
+.ep-sprite { display: none; }
+/* Text size (bar A−/A/A+): copied from UX4G's accessibility widget, which
+   zooms body children in 0.1 steps, four steps max, reset to 1. */
+body { zoom: 1; }
+.ep-text-1 body { zoom: 1.1; }
+.ep-text-2 body { zoom: 1.2; }
+.ep-text-3 body { zoom: 1.3; }
+.ep-text-4 body { zoom: 1.4; }
+body {
+  font-family: var(--ux4g-font-family-base);
+  background: var(--ux4g-color-neutral-100);
+  color: var(--ux4g-color-neutral-900);
+}
+
+/* ---------- Header shell ---------- */
+/* Bands run full width, as on ux4g.gov.in. Content inside is capped to the
+   1280 px frame width and centred. */
+.ep-bar,
+.ep-header {
+  width: 100%;
+  box-sizing: border-box;
+}
+.ep-bar-inner,
+.ep-navbar-inner,
+.ep-navrow-inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+.ep-bar *, .ep-header * { box-sizing: border-box; }
+.ep-bar img, .ep-header img { display: block; }
+.ep-logo img { height: 40px; width: auto; }
+
+/* ---------- Band 1: accessibility bar 1280x46 ---------- */
+.ep-bar {
+  height: 46px;
+  background: var(--ep-bar-bg);
+  color: var(--ux4g-color-neutral-50);
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+}
+.ep-bar-inner {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+.ep-bar a { color: inherit; text-decoration: none; }
+.ep-bar-options {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 32px;
+}
+.ep-bar-divider {
+  width: 1px;
+  height: 20px;
+  background: var(--ep-bar-divider);
+}
+.ep-bar-fontsize {
+  display: flex;
+  gap: 8px;
+}
+.ep-bar-fontsize button {
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  padding: 0;
+  cursor: pointer;
+}
+.ep-bar-fontsize button { transition: background-color 0.15s; }
+.ep-bar-fontsize button:hover { background: rgba(255, 255, 255, 0.10); }
+.ep-bar-fontsize button[aria-pressed="true"] { background: var(--ep-bar-active); }
+.ep-bar-fontsize button:disabled { opacity: 0.45; cursor: default; background: transparent; }
+.ep-bar a { border-radius: 4px; padding: 2px 4px; margin: -2px -4px; transition: background-color 0.15s; }
+.ep-bar a:hover { background: rgba(255, 255, 255, 0.10); }
+.ep-icon { display: block; width: 20px; height: 20px; fill: currentColor; flex-shrink: 0; }
+.ep-icon-18 { width: 18px; height: 18px; }
+.ep-icon-20 { width: 20px; height: 20px; }
+.ep-icon-22 { width: 22px; height: 22px; }
+.ep-icon-24 { width: 24px; height: 24px; }
+.ep-bar-iconbtn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  padding: 0;
+  transition: background-color 0.15s;
+}
+.ep-bar-iconbtn:hover { background: rgba(255, 255, 255, 0.10); }
+.ep-bar-lang {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.ep-bar-lang:hover .ep-chevron { opacity: 1; }
+.ep-chevron { display: block; flex-shrink: 0; opacity: 0.7; transition: transform 0.22s var(--ep-ease-out), opacity 0.15s; }
+.ep-bar-lang .ep-chevron { width: 10px; height: 10px; }
+.ep-navlink .ep-chevron { width: 14px; height: 14px; }   /* ux4g.gov.in proportions; wider than Figma's 4px caret, owner's call */
+
+/* ---------- Band 2: navbar 1280x80 ---------- */
+.ep-navbar {
+  height: 80px;
+  background: var(--ux4g-color-neutral-0);
+}
+.ep-navbar-inner {
+  height: 80px;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0;
+}
+.ep-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+}
+.ep-logo {
+  display: inline-flex;
+  width: auto;
+  height: 40px;
+  border-radius: 0;                 /* hackathon mark (owner, 29 Aug 2026), not a circle placeholder */
+  padding: 0;
+  background: transparent;
+}
+.ep-brand-label {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  color: var(--ux4g-color-neutral-900);
+  white-space: nowrap;
+}
+.ep-navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 43px;
+}
+.ep-notif {
+  position: relative;          /* badge sits on the bell's top-right, as the sketch */
+  display: flex;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  text-decoration: none;
+}
+.ep-notif { border-radius: 12px; padding: 2px; margin: 0 6px 0 -2px; transition: background-color 0.15s; }
+.ep-notif:hover { background: var(--ep-ink-tint-6); }
+.ep-notif { color: var(--ux4g-color-neutral-900); }
+.ep-notif:hover { color: var(--ux4g-color-neutral-900); }
+.ep-count {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  height: 14px;
+  min-width: 18px;
+  padding: 1px 5px;
+  border-radius: 9px;
+  background: var(--ep-badge-red);
+  color: #fff;
+  font-size: 11px;                 /* owner rule: never below 11, whole numbers */
+  line-height: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.ep-uan {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 43px;
+  padding: 6px 14px 6px 8px;
+  border-radius: 20px;
+  background: var(--ux4g-color-neutral-100);
+  text-decoration: none;
+  color: inherit;
+  transition: background-color 0.15s;
+}
+.ep-uan:hover { background: var(--ux4g-color-neutral-200); }
+.ep-uan .ep-icon { color: var(--ux4g-color-neutral-500); }
+.ep-uan-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  white-space: nowrap;
+}
+.ep-uan-id {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 500;
+  color: var(--ux4g-color-neutral-900);
+}
+.ep-uan-name {
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 600;
+  color: var(--ux4g-color-neutral-500);
+}
+/* Logout, Figma 96x40: now the shared .ep-btn (one size, owner 29 Aug 2026) */
+.ep-header .ep-btn { width: 96px; }
+
+/* ---------- Band 3: nav row 1280x48 ---------- */
+.ep-navrow {
+  height: 48px;
+  background: var(--ux4g-color-neutral-0);
+  border-top: 1px solid var(--ux4g-color-neutral-200);
+  border-bottom: 1px solid var(--ux4g-color-neutral-200);
+}
+.ep-navrow-inner {
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+.ep-navlist {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ep-navitem { display: block; }
+.ep-navlink {
+  position: relative;          /* anchors the active indicator; the mega panel is a sibling, unaffected */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 30px;
+  margin: 0;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 500;
+  color: var(--ep-nav-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.ep-navitem[aria-current="page"] .ep-navlink {
+  font-weight: 600;
+  color: var(--ux4g-color-neutral-900);
+  background: var(--ep-ink-tint-6);
+}
+/* Active indicator, as on ux4g.gov.in: absolute, 2px, inset 12px, 5px below the pill */
+.ep-navitem[aria-current="page"] .ep-navlink::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -7px;
+  height: 2px;
+  border-radius: 9999px;
+  background: var(--ux4g-color-primary-600);
+}
+
+/* Search, Figma 380x36 */
+.ep-search-form {
+  width: 380px;
+  margin: 0;
+}
+.ep-search {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  background: var(--ux4g-color-neutral-0);
+  border: 1px solid var(--ux4g-color-neutral-200);
+  border-radius: 8px;
+  padding: 0;
+  gap: 0;
+  overflow: hidden;
+}
+.ep-search-lead {
+  width: 16px;
+  height: 16px;
+  margin-left: 14px;
+  margin-right: 10px;
+  color: var(--ux4g-color-neutral-500);
+}
+.ep-search-input {
+  flex: 1;
+  min-width: 0;
+  height: 34px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--ux4g-color-neutral-900);
+}
+.ep-search-input { caret-color: var(--ux4g-color-primary-600); }
+.ep-search-input::placeholder { color: var(--ux4g-color-neutral-500); }
+.ep-search { transition: border-color 0.15s, box-shadow 0.15s; }
+.ep-search:hover { border-color: #d4d4d4; }
+.ep-search:focus-within {
+  border-color: var(--ux4g-color-primary-600);
+  box-shadow: 0 0 0 3px rgba(74, 43, 194, 0.16);
+}
+.ep-search-input:focus-visible { outline: 0; }
+.ep-search-btn { transition: background-color 0.15s; }
+.ep-search-btn:hover { background: var(--ep-primary-hover); }
+.ep-search-btn {
+  width: 52px;
+  height: 36px;
+  margin: -1px -1px -1px 0;      /* cover the wrapper border, Figma button is flush */
+  padding: 0;
+  border: 0;
+  border-radius: 0 8px 8px 0;
+  background: var(--ux4g-color-primary-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.ep-search-btn { color: #fff; }
+
+/* ---------- Focus (WCAG floor) ---------- */
+.ep-header a:focus-visible,
+.ep-header button:focus-visible,
+.ep-header input:focus-visible,
+.ep-bar a:focus-visible,
+.ep-bar button:focus-visible {
+  outline: 2px solid var(--ux4g-color-primary-600);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.ep-bar a:focus-visible,
+.ep-bar button:focus-visible { outline-color: var(--ux4g-color-neutral-50); }
+
+/* Icon-only buttons inherit the page size so no element sits on the 13.33 px UA default (type rule audit). */
+.ep-bar-iconbtn, .ep-menu-btn, .ep-search-btn { font-size: 14px; }
+
+/* ---------- Pilot page body (not a component) ---------- */
+.ep-pilot-main {
+  min-height: 1400px;
+  font-size: 14px;
+  color: var(--ux4g-color-neutral-500);
+}
+
+/* =====================================================================
+   Service card — one component. Layout class is the only axis:
+   --stack (login grid) · --row (dashboard tiles) · --cta (login sidebar) · --rail (Quick Links).
+   Tone classes colour the icon box; state rules are shared by every layout.
+   Spec: specs/service-card.md. Owner overrides of Figma are logged in DECISIONS.md.
+   ===================================================================== */
+.ep-services { width: 100%; max-width: 832px; }   /* Figma left column 102:136; fluid column below that */
+.ep-section-title {
+  margin: 0 0 12px;                           /* Figma 8; owner wanted more air under headings (29 Aug 2026) */
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--ux4g-color-neutral-900);
+}
+.ep-card-row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 12px;
+  align-items: stretch;                       /* siblings share the tallest card's height */
+}
+.ep-card-row > li { flex: 1 0 0; min-width: 0; display: flex; }
+
+/* ---- base card ---- */
+.ep-card {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  gap: 8px;
+  padding: 11px;                              /* 11 + 1 px border = inset 12 (owner, multiples of 4) */
+  background: var(--ux4g-color-neutral-0);
+  border: 1px solid var(--ep-card-border);
+  border-radius: 8px;
+  color: var(--ep-card-ink);
+  text-decoration: none;
+  overflow: hidden;
+  transition: border-color 0.15s, background-color 0.15s, transform 0.15s var(--ep-ease-out);
+}
+.ep-card-icon {
+  --ep-card-icon-size: 36px;                  /* owner: bigger than Figma's 28 */
+  flex: 0 0 var(--ep-card-icon-size);
+  width: var(--ep-card-icon-size);
+  height: var(--ep-card-icon-size);
+  border-radius: 8px;
+  background: var(--ux4g-color-neutral-100);
+  color: var(--ux4g-color-neutral-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ep-card-icon .ep-icon { width: 24px; height: 24px; }
+/* Icon tones, sampled from the live EPFO member portal (pastel box, saturated glyph).
+   Glyphs sit at ≥3:1 on their box: orange and green deepened from the sampled values. */
+.ep-card-icon--teal   { background: #eaf6f2; color: #0e6b5c; }
+.ep-card-icon--blue   { background: #ecf2fd; color: #1f6fd6; }
+.ep-card-icon--green  { background: #eaf7ec; color: #22823a; }
+.ep-card-icon--rose   { background: #fcedf0; color: #b41e46; }
+.ep-card-icon--orange { background: #fef0e4; color: #c4560f; }
+.ep-card-icon--purple { background: #f3ebf9; color: #8c34c2; }   /* reserved: cta cards only (UAN / status, login page) */
+.ep-card-icon--32 { --ep-card-icon-size: 32px; border-radius: 7px; }   /* offered to the owner; unused unless picked */
+.ep-card-icon--32 .ep-icon { width: 22px; height: 22px; }
+.ep-card-title { font-size: 12px; line-height: 17px; font-weight: 600; overflow-wrap: anywhere; transition: color 0.15s; }
+.ep-card-desc  { font-size: 11px; line-height: 15px; font-weight: 400; color: var(--ep-card-muted); overflow-wrap: anywhere; }
+.ep-card-chevron {
+  display: inline-flex; align-items: center; justify-content: center; vertical-align: -1px;
+  width: 12px; height: 12px;
+  color: var(--ep-card-muted);
+  transition: transform 0.22s var(--ep-ease-out), color 0.15s;
+}
+.ep-card-badge {
+  display: inline-flex; align-items: center; height: 20px; padding: 0 8px; border-radius: 9999px;   /* = .ep-badge--primary (locked chip) */
+  background: #eeeafc; color: var(--ux4g-color-primary-600);
+  font-size: 11px; line-height: 16px; font-weight: 600; white-space: nowrap;
+}
+
+/* ---- states, shared: hover / focus-visible / :active press ---- */
+.ep-card:hover,
+.ep-card:focus-visible { border-color: var(--ux4g-color-primary-600); background: var(--ep-card-hover-bg); }
+.ep-card:hover .ep-card-title,
+.ep-card:focus-visible .ep-card-title { color: var(--ux4g-color-primary-600); }
+.ep-card:hover .ep-card-chevron,
+.ep-card:focus-visible .ep-card-chevron { color: var(--ux4g-color-primary-600); transform: translateX(2px); }
+.ep-card:active { transform: translateY(1px); }
+.ep-card:focus-visible { outline: 2px solid var(--ux4g-color-primary-600); outline-offset: 2px; }
+
+/* ---- stack: login grid, Figma 102:172 (156.8 wide; height from content) ---- */
+.ep-card--stack { flex-direction: column; align-items: flex-start; width: 100%; }
+.ep-card-last { white-space: nowrap; }                       /* last title word + chevron never separate */
+.ep-card-last .ep-card-chevron { margin-left: 3px; }
+
+/* ---- row: dashboard wide action tile, Figma 18:67 (373 wide) ---- */
+.ep-card-row--wide { width: 760px; gap: 12px; }
+.ep-card--row {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: auto auto;
+  column-gap: 12px; row-gap: 2px; align-items: center;
+  width: 100%; padding: 11px 43px 11px 15px;        /* 12/16 minus border; right makes room for the pinned chevron */
+}
+.ep-card--row .ep-card-icon  { grid-row: 1 / 3; grid-column: 1; }
+.ep-card--row .ep-card-title { grid-row: 1; grid-column: 2; align-self: end; }
+.ep-card--row .ep-card-desc  { grid-row: 2; grid-column: 2; align-self: start; }
+.ep-card--row .ep-card-title,
+.ep-card--row .ep-card-desc  { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ---- cta: login sidebar secondary action, Figma 102:194 (340 wide) ---- */
+.ep-card-row--cta { flex-direction: column; width: 340px; gap: 12px; }
+.ep-card--cta {
+  display: grid; grid-template-columns: auto auto minmax(0, 1fr); column-gap: 8px; row-gap: 4px; align-items: center;
+  width: 100%; padding: 11px 43px 11px 11px;        /* same inset as stack (12); right makes room for the chevron */
+}
+.ep-card--cta .ep-card-icon  { grid-row: 1 / 3; grid-column: 1; margin-right: 4px; }   /* 12 px to text */
+.ep-card--cta .ep-card-title { grid-row: 1; grid-column: 2; white-space: nowrap; }
+.ep-card--cta .ep-card-badge { grid-row: 1; grid-column: 3; justify-self: start; }
+.ep-card--cta .ep-card-desc  { grid-row: 2; grid-column: 2 / 4; }
+
+/* row + cta: chevron pinned to the right edge, vertically centred */
+.ep-card--row .ep-card-chevron,
+.ep-card--cta .ep-card-chevron { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); margin: 0; }
+.ep-card--row:hover .ep-card-chevron, .ep-card--row:focus-visible .ep-card-chevron,
+.ep-card--cta:hover .ep-card-chevron, .ep-card--cta:focus-visible .ep-card-chevron { transform: translate(2px, -50%); }
+
+/* ---- rail: Quick Links, Figma 22:46 / 22:48; owner enlarged (200 wide, rows 52, pitch 60) ---- */
+.ep-card-row--rail {
+  flex-direction: column; width: 100%; gap: 8px; padding: 0; box-sizing: border-box; margin: 0;
+}
+.ep-card--rail {
+  flex-direction: row; align-items: center; width: 100%;
+  gap: 8px; padding: 8px; border: 0; border-radius: 8px; background: transparent;   /* 10 → 8: spacing ×4 rule */
+}
+.ep-card--rail .ep-card-icon { --ep-card-icon-size: 32px; border-radius: 7px; }
+.ep-card--rail .ep-card-icon .ep-icon { width: 20px; height: 20px; }
+.ep-card--rail .ep-card-title { flex: 1 1 auto; text-wrap: balance; }
+.ep-card--rail .ep-card-chevron { display: none; }
+.ep-card--rail:hover, .ep-card--rail:focus-visible { background: var(--ux4g-color-neutral-100); border-color: transparent; }
+.ep-card--rail:hover .ep-card-title, .ep-card--rail:focus-visible .ep-card-title { color: var(--ux4g-color-primary-600); }
+
+/* demo scaffolding, not a component */
+.ep-demo { margin-top: 32px; display: flex; flex-direction: column; gap: 8px; }
+.ep-demo .ep-section-title { margin-top: 16px; }
+.ep-demo-tag { font-weight: 400; color: var(--ux4g-color-neutral-500); font-size: 12px; margin-left: 8px; }
+
+/* =====================================================================
+   Behaviour, copied from ux4g.gov.in (measured 29 Aug 2026)
+   ===================================================================== */
+
+.ep-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.ep-navcard {
+  position: relative;           /* containing block for mega panels */
+  background: var(--ux4g-color-neutral-0);
+  transition: box-shadow 0.3s var(--ep-ease-out);
+}
+
+/* Scrolled: header stays full width (owner: floating card too heavy for old
+   devices). Only a thin shadow appears so the edge reads against content. */
+.ep-header.is-scrolled .ep-navcard {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Nav link hover / open: 6% tint, caret full opacity, caret flips while open */
+.ep-navlink { transition: color 0.15s, background-color 0.15s; }
+.ep-navlink:active { background: rgba(23, 23, 23, 0.09); }
+.ep-navitem:not([aria-current]) .ep-navlink:hover,
+.ep-navitem.is-open .ep-navlink {
+  color: var(--ux4g-color-neutral-900);
+  background: var(--ep-ink-tint-6);
+}
+.ep-navlink:hover .ep-chevron,
+.ep-navitem.is-open .ep-chevron { opacity: 1; }
+.ep-navitem.is-open .ep-chevron { transform: rotate(180deg); }
+
+/* Mega panel: full card width, hangs below the nav row */
+.ep-mega {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 100%;
+  margin-top: -1px;             /* sit on the nav row's bottom border */
+  background: var(--ux4g-color-neutral-0);
+  border: 1px solid var(--ux4g-color-neutral-200);
+  border-top: 0;
+  border-radius: 0 0 16px 16px;
+  box-shadow: 0 24px 48px -16px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+  z-index: 50;
+  animation: ep-mega-in 0.22s var(--ep-ease-out);
+  text-align: left;
+}
+.ep-mega[hidden] { display: none; }
+@keyframes ep-mega-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+/* Panel spans the card; its content sits on the 1280 column like the bands */
+.ep-mega-body,
+.ep-mega-foot {
+  padding-left: max(24px, calc((100% - 1280px) / 2 + 24px));
+  padding-right: max(24px, calc((100% - 1280px) / 2 + 24px));
+}
+.ep-mega-body {
+  display: flex;
+  padding-top: 24px;
+  padding-bottom: 20px;
+  gap: 40px;
+}
+.ep-mega-col {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.ep-mega-col + .ep-mega-col {
+  border-left: 1px solid var(--ux4g-color-neutral-200);
+  padding-left: 40px;
+}
+.ep-mega-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.ep-mega-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--ux4g-color-neutral-900);
+  transition: background-color 0.15s;
+}
+.ep-mega-item:hover,
+.ep-mega-item:focus-visible { background: var(--ep-ink-tint-4); }
+.ep-mega-item:hover .ep-mega-title,
+.ep-mega-item:focus-visible .ep-mega-title { color: var(--ux4g-color-primary-600); }
+.ep-mega-item:hover .ep-mega-icon { background: #dcd4ff; }
+.ep-mega-icon { transition: background-color 0.15s; }
+.ep-mega-title { transition: color 0.15s; }
+.ep-mega-icon {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: #ece8fb;          /* primary-50-ish tint seen on ux4g.gov.in */
+  color: var(--ux4g-color-primary-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ep-mega-text { display: flex; flex-direction: column; gap: 2px; }
+.ep-mega-title { font-size: 14px; line-height: 20px; font-weight: 500; }
+.ep-mega-desc { font-size: 12px; line-height: 16px; color: var(--ux4g-color-neutral-500); }
+.ep-mega-empty { padding: 8px 16px; font-size: 12px; color: var(--ux4g-color-neutral-500); }
+.ep-mega-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-top: 1px solid var(--ux4g-color-neutral-200);
+  background: var(--ux4g-color-neutral-50);
+  font-size: 12px;
+  line-height: 16px;
+  color: var(--ux4g-color-neutral-500);
+}
+.ep-mega-foot a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--ux4g-color-primary-600);
+  text-decoration: none;
+}
+.ep-mega-foot a .ep-arrow { transition: transform 0.22s var(--ep-ease-out); }
+.ep-mega-foot a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.ep-mega-foot a:hover .ep-arrow { transform: translateX(2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ep-header, .ep-navcard, .ep-navlink, .ep-chevron, .ep-arrow, .ep-mega, .ep-mega-item, .ep-mega-icon, .ep-card, .ep-card-title, .ep-card-chevron { transition: none; animation: none; }
+}
+
+
+/* =====================================================================
+   Responsive. Breakpoints and behaviour copied from ux4g.gov.in:
+   >= 1024 desktop as above; 768-1023 nav row scrolls sideways;
+   < 768 hamburger + in-flow accordion panel.
+   ===================================================================== */
+
+/* Desktop-only bits */
+.ep-brand-short { display: none; text-decoration: none; border: 0; }
+.ep-menu-btn { display: none; }
+.ep-mobile { display: none; }
+
+/* ---- Tablet: nav row scrolls, no scrollbar ---- */
+@media (max-width: 1023px) {
+  .ep-navlist { flex: 1 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 8px; margin-bottom: -8px; }
+  .ep-navlist::-webkit-scrollbar { display: none; }
+  .ep-search-form { flex: 0 0 auto; width: 240px; margin-left: 16px; }
+}
+
+/* ---- Phone ---- */
+@media (max-width: 767px) {
+  /* Bar: keep label, accessibility, language; drop text size + dividers + skip link text */
+  .ep-bar-inner { padding: 0 16px; }
+  .ep-bar-fontsize, .ep-bar-divider, .ep-bar-lang { display: none; }
+  .ep-bar a[href="#main"] {
+    position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden;
+  }
+  .ep-bar a[href="#main"]:focus { position: static; width: auto; height: auto; }
+  .ep-bar-options { gap: 12px; }
+
+  /* Navbar: short brand, bell, hamburger. Chip + Logout move into the panel */
+  .ep-navbar-inner { padding: 16px; }
+  .ep-brand-full { display: none; }
+  .ep-brand-short { display: inline; }
+  .ep-uan, .ep-btn-primary { display: none; }
+  .ep-navbar-right { gap: 8px; }
+  .ep-menu-btn {
+    display: flex; align-items: center; justify-content: center;
+    width: 40px; height: 40px; margin-right: -9px;
+    border: 0; border-radius: 8px; background: transparent;
+    color: var(--ep-nav-muted); cursor: pointer; padding: 0;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .ep-menu-btn:hover { background: var(--ep-ink-tint-6); color: var(--ux4g-color-neutral-900); }
+  .ep-menu-btn .ep-menu-close { display: none; }
+  .ep-menu-btn[aria-expanded="true"] .ep-menu-open { display: none; }
+  .ep-menu-btn[aria-expanded="true"] .ep-menu-close { display: block; }
+
+  /* Nav row goes away once JS can build the panel */
+  .ep-header.js .ep-navrow { display: none; }
+  .ep-navrow-inner { padding: 0 16px; }
+  .ep-search-form { display: none; }
+
+  /* Panel: in flow, pushes content, as on ux4g.gov.in */
+  .ep-mobile {
+    display: block;
+    border-top: 1px solid var(--ux4g-color-neutral-200);
+    background: var(--ux4g-color-neutral-0);
+    max-height: min(600px, calc(100vh - 80px));
+    overflow-y: auto;
+    padding: 16px;
+  }
+  .ep-mobile[hidden] { display: none; }
+  .ep-mobile-section + .ep-mobile-section { margin-top: 12px; }
+  .ep-mobile-head, .ep-mobile-link {
+    display: flex; align-items: center; width: 100%;
+    border: 0; background: transparent; text-align: left;
+    font: inherit; color: var(--ux4g-color-neutral-900); text-decoration: none;
+    border-radius: 8px; cursor: pointer;
+    transition: background-color 0.15s;
+  }
+  .ep-mobile-head {
+    justify-content: space-between;
+    padding: 12px 16px;
+    font-size: 14px; line-height: 20px; font-weight: 600;
+  }
+  .ep-mobile-head:hover { background: var(--ep-ink-tint-6); }
+  .ep-mobile-head .ep-chevron { width: 16px; height: 16px; opacity: 1; }
+  .ep-mobile-head[aria-expanded="true"] .ep-chevron { transform: rotate(180deg); }
+  .ep-mobile-head[aria-current="page"] { color: var(--ux4g-color-primary-600); background: rgba(74, 43, 194, 0.10); }
+  .ep-mobile-body {
+    margin: 8px 0 0 16px;
+    padding-left: 16px;
+    border-left: 2px solid var(--ux4g-color-neutral-200);
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .ep-mobile-body[hidden] { display: none; }
+  .ep-mobile-link {
+    gap: 12px;
+    padding: 8px 12px;
+    font-size: 14px; line-height: 20px;
+  }
+  .ep-mobile-link:hover { background: var(--ep-ink-tint-6); }
+  .ep-mobile-link .ep-icon { width: 18px; height: 18px; color: var(--ep-nav-muted); }
+  .ep-mobile-link:hover .ep-icon { color: var(--ux4g-color-primary-600); }
+  .ep-mobile-more {
+    margin-top: 8px; padding-top: 8px;
+    border-top: 1px solid var(--ux4g-color-neutral-200);
+  }
+  .ep-mobile-tools {
+    margin-top: 16px; padding-top: 8px;
+    border-top: 1px solid var(--ux4g-color-neutral-200);
+  }
+  .ep-mobile-tool {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 16px;
+    font-size: 14px; line-height: 20px; color: var(--ep-nav-muted);
+  }
+  .ep-mobile-tool .ep-bar-fontsize { display: flex; gap: 4px; }
+  .ep-mobile-tool .ep-bar-fontsize button {
+    color: var(--ux4g-color-neutral-900);
+    border: 1px solid var(--ux4g-color-neutral-200);
+    border-radius: 6px;
+  }
+  .ep-mobile-tool .ep-bar-fontsize button:hover { background: var(--ep-ink-tint-6); }
+  .ep-mobile-tool .ep-bar-fontsize button[aria-pressed="true"] {
+    background: rgba(74, 43, 194, 0.10);
+    border-color: var(--ux4g-color-primary-600);
+    color: var(--ux4g-color-primary-600);
+  }
+  .ep-mobile-tool .ep-bar-lang {
+    display: flex; height: 32px; padding: 0 10px;
+    border: 1px solid var(--ux4g-color-neutral-200); border-radius: 6px;
+    color: var(--ux4g-color-neutral-900); font-size: 14px;
+  }
+  .ep-mobile-tool .ep-bar-lang:hover { background: var(--ep-ink-tint-6); }
+  .ep-mobile-account {
+    margin-top: 16px; padding-top: 16px;
+    border-top: 1px solid var(--ux4g-color-neutral-200);
+    display: flex; flex-direction: column; gap: 12px;
+  }
+  .ep-mobile-account .ep-uan { display: flex; width: fit-content; }
+  .ep-mobile-account .ep-btn-primary { display: inline-flex; width: 100%; }
+  .ep-mobile-search { display: block; margin-bottom: 16px; }
+  .ep-mobile-search .ep-search-form { display: block; width: 100%; margin: 0; }
+  .ep-mobile-search .ep-search-input { width: 100%; }
+
+  /* Page body */
+}
+
+/* ---------- Buttons: LOCKED by owner 29 Aug 2026 (specs/button.md) ----------
+   One size: 14/20 semibold, 40 tall, r8, 16 side padding. Figma had 12/17 r6
+   39 tall (login, consent) and 16/20 500 (Logout); owner picked one size.
+   Variants: primary, secondary, outline. .is-* classes freeze states for demos. */
+.ep-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--ep-space-2);
+  min-height: 40px; padding: 0 var(--ep-space-4);
+  border: 1px solid transparent; border-radius: var(--ep-radius-md);
+  font-family: inherit; font-size: var(--ep-text-md); line-height: var(--ep-leading-md); font-weight: var(--ep-weight-semibold);
+  cursor: pointer; text-decoration: none; white-space: nowrap; box-sizing: border-box; position: relative;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s, transform 0.15s var(--ep-ease-out);
+}
+.ep-btn--block { width: 100%; }
+
+.ep-btn--primary { background: var(--ux4g-color-primary-600); border-color: var(--ux4g-color-primary-600); color: #fff; }
+.ep-btn--primary:hover, .ep-btn--primary.is-hover { background: var(--ep-primary-hover); border-color: var(--ep-primary-hover); }
+
+.ep-btn--secondary { background: #fff; border-color: var(--ep-card-border); color: var(--ep-card-ink); }
+.ep-btn--secondary:hover, .ep-btn--secondary.is-hover { background: var(--ux4g-color-neutral-100); border-color: #c4c8cf; }
+
+.ep-btn--outline { background: #fff; border-color: var(--ux4g-color-primary-600); color: var(--ux4g-color-primary-600); }
+.ep-btn--outline:hover, .ep-btn--outline.is-hover { background: var(--ep-card-hover-bg); border-color: var(--ep-primary-hover); color: var(--ep-primary-hover); }
+
+.ep-btn--tertiary { background: transparent; border-color: transparent; color: var(--ux4g-color-primary-600); }
+.ep-btn--tertiary:hover, .ep-btn--tertiary.is-hover { background: var(--ep-card-hover-bg); color: var(--ep-primary-hover); }
+.ep-btn--tertiary:disabled, .ep-btn--tertiary.is-disabled { color: #a3a3a3; background: transparent; }
+.ep-btn--tertiary.is-loading::after { color: var(--ux4g-color-primary-600); }
+.ep-btn .ep-icon { width: 16px; height: 16px; }
+.ep-btn--sm { min-height: 32px; padding: 0 var(--ep-space-3); font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); }   /* inline actions in 12 px rows only (owner, 29 Aug 2026) */
+
+.ep-btn:active, .ep-btn.is-active { transform: translateY(1px); }
+.ep-btn:focus-visible, .ep-btn.is-focus { outline: 2px solid var(--ux4g-color-primary-600); outline-offset: 2px; }
+.ep-btn:disabled, .ep-btn.is-disabled { cursor: not-allowed; transform: none; }
+.ep-btn--primary:disabled, .ep-btn--primary.is-disabled { background: #c9bff0; border-color: #c9bff0; color: #fff; }
+.ep-btn--secondary:disabled, .ep-btn--secondary.is-disabled,
+.ep-btn--outline:disabled, .ep-btn--outline.is-disabled { background: var(--ux4g-color-neutral-50); border-color: var(--ux4g-color-neutral-200); color: #a3a3a3; }
+
+.ep-btn.is-loading { color: transparent; pointer-events: none; }
+.ep-btn.is-loading::after {
+  content: ""; position: absolute; width: 16px; height: 16px; border-radius: 50%;
+  border: 2px solid currentColor; border-right-color: transparent; animation: ep-spin 0.7s linear infinite;
+}
+.ep-btn--primary.is-loading::after { color: #fff; }
+.ep-btn--secondary.is-loading::after { color: var(--ep-card-ink); }
+.ep-btn--outline.is-loading::after { color: var(--ux4g-color-primary-600); }
+@keyframes ep-spin { to { transform: rotate(360deg); } }
+
+/* demo grid for the button proposal */
+.ep-btn-demo { display: grid; grid-template-columns: 96px repeat(6, auto); gap: 12px 16px; align-items: center; justify-content: start; padding: 16px; background: #fff; border: 1px solid var(--ep-card-border); border-radius: 8px; }
+.ep-btn-demo-h { font-size: 11px; line-height: 16px; color: var(--ux4g-color-neutral-500); text-transform: uppercase; letter-spacing: 0.04em; }
+.ep-btn-demo-l { font-size: 12px; line-height: 16px; color: var(--ux4g-color-neutral-500); }
+.ep-btn-pair { display: flex; gap: 12px; width: 340px; }
+.ep-btn-pair .ep-btn { flex: 1 0 0; }
+.ep-btn-pairs { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+
+/* ---------- Form field: LOCKED by owner 29 Aug 2026 (specs/form-field.md) ----------
+   Figma 102:178: label 11/16 500, gap 6, input 36 tall, r6. Ours: label 12/16
+   500, gap 8, input 40 tall (matches the button), r8, white on focus.
+   Error = red text + icon + red border (.is-invalid). */
+.ep-field { display: flex; flex-direction: column; gap: var(--ep-space-2); width: 100%; }
+.ep-field-label { font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-medium); color: var(--ep-card-ink); }
+.ep-field-req { color: var(--ep-badge-red); margin-left: 2px; }
+.ep-field-input {
+  box-sizing: border-box; width: 100%; min-height: 40px; padding: 0 var(--ep-space-3);
+  border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md);
+  background: var(--ux4g-color-neutral-100); color: var(--ep-card-ink);
+  font-family: inherit; font-size: var(--ep-text-md); line-height: var(--ep-leading-md);
+  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+}
+.ep-field-input::placeholder { color: var(--ux4g-color-neutral-500); }
+.ep-field-input:hover, .ep-field-input.is-hover { border-color: #c4c8cf; }
+.ep-field-input:focus, .ep-field-input.is-focus { outline: none; background: #fff; border-color: var(--ux4g-color-primary-600); box-shadow: 0 0 0 2px #dcd4ff; }
+.ep-field-input:disabled, .ep-field-input.is-disabled { background: var(--ux4g-color-neutral-50); color: #a3a3a3; border-color: var(--ux4g-color-neutral-200); cursor: not-allowed; }
+.ep-field-help { font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); color: var(--ux4g-color-neutral-500); }
+.ep-field-error { font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); color: #b3261e; display: flex; gap: 6px; align-items: flex-start; }
+.ep-field-error[hidden] { display: none; }   /* display:flex above would beat the hidden attribute */
+.ep-field-error .ep-icon { width: 16px; height: 16px; margin-top: 0; flex-shrink: 0; }
+.ep-field.is-invalid .ep-field-input { border-color: #b3261e; background: #fff; }
+.ep-field.is-invalid .ep-field-input:focus, .ep-field.is-invalid .ep-field-input.is-focus { box-shadow: 0 0 0 2px #f8d7d4; border-color: #b3261e; }
+.ep-field-demo { display: grid; grid-template-columns: repeat(auto-fill, 340px); gap: 24px; padding: 16px; background: #fff; border: 1px solid var(--ep-card-border); border-radius: 8px; }
+.ep-field-demo-h { grid-column: 1 / -1; font-size: 11px; line-height: 16px; color: var(--ux4g-color-neutral-500); text-transform: uppercase; letter-spacing: 0.04em; }
+
+/* ---------- Badge / status chip: LOCKED by owner 29 Aug 2026 (specs/badge.md) ----------
+   Figma had r3 / r4 / r12, 9-11 px, weight 700. Ours: one pill, 11/16
+   semibold, 20 tall, padding 0 8, five tones. */
+.ep-badge {
+  display: inline-flex; align-items: center; gap: var(--ep-space-1); height: 20px; padding: 0 var(--ep-space-2);
+  border-radius: var(--ep-radius-pill); font-size: var(--ep-text-xs); line-height: 16px; font-weight: var(--ep-weight-semibold);
+  white-space: nowrap; vertical-align: middle;
+}
+.ep-badge .ep-icon { width: 12px; height: 12px; }
+.ep-badge--new     { background: var(--ep-badge-red); color: #fff; text-transform: uppercase; letter-spacing: 0.04em; }
+.ep-badge--primary { background: #eeeafc; color: var(--ux4g-color-primary-600); }
+.ep-badge--success { background: #e7f6ee; color: #0e7a4d; }
+.ep-badge--neutral { background: var(--ux4g-color-neutral-100); color: var(--ep-card-muted); font-weight: var(--ep-weight-medium); }
+.ep-badge--warning { background: #fef0e4; color: #c4560f; }
+.ep-badge-demo { display: flex; flex-direction: column; gap: 16px; padding: 16px; background: #fff; border: 1px solid var(--ep-card-border); border-radius: 8px; }
+.ep-badge-demo-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.ep-badge-demo-row > .ep-field-demo-h { width: 112px; }
+
+/* ---------- Section heading, page head, text link: LOCKED by owner 29 Aug 2026 (specs/heading-link.md) ----------
+   Figma: section heading 14/20 600 #171717 (87:7); page title 18/26 700 +
+   subtitle 11.5/17 #666e73 (26:137); "View … ›" 11.5/17 600 primary (26:141);
+   "Forgot Password ?" 11/16 500 primary (102:189). Ours: 700 → 600, 11.5 → 12,
+   links 12/16 semibold primary with the sprite caret. */
+.ep-section-head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--ep-space-4); }
+.ep-section-head .ep-section-title { margin: 0; }
+.ep-page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--ep-space-4); }
+.ep-page-title { margin: 0; font-size: 18px; line-height: 24px; font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); }
+.ep-page-sub { margin: var(--ep-space-1) 0 0; font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); color: var(--ep-card-muted); }
+
+.ep-link {
+  display: inline-flex; align-items: center; gap: 2px;
+  font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-semibold);
+  color: var(--ux4g-color-primary-600); text-decoration: none; border-radius: var(--ep-radius-sm);
+  text-underline-offset: 3px; text-decoration-thickness: 1px; transition: color 0.15s;
+}
+.ep-link:hover, .ep-link.is-hover { color: var(--ep-primary-hover); text-decoration: underline; }
+.ep-link:focus-visible, .ep-link.is-focus { outline: 2px solid var(--ux4g-color-primary-600); outline-offset: 2px; }
+.ep-link .ep-caret { width: 12px; height: 12px; }
+.ep-link:hover .ep-caret, .ep-link.is-hover .ep-caret { transform: translateX(2px); }
+.ep-link .ep-caret { transition: transform 0.15s var(--ep-ease-out); }
+.ep-link--body { font-weight: var(--ep-weight-medium); text-decoration: underline; }   /* inline in text: always underlined (owner) */
+
+.ep-head-demo { display: flex; flex-direction: column; gap: 24px; padding: 16px; background: #fff; border: 1px solid var(--ep-card-border); border-radius: 8px; }
+.ep-head-demo > div { max-width: 760px; }
+.ep-head-demo .ep-badge-demo-row { gap: 24px; }
+
+/* ---------- Footer: LOCKED by owner 29 Aug 2026 (specs/footer-notice.md) ----------
+   Figma 102:203: 56 tall, #12102e, text #bfccc9 11/15, 24 gutters; date +
+   CPV left, "Follow us" + 5 socials centre, Contact Us right. Ours: 12/16
+   (owner), socials as Phosphor logos, 20 px, 32 hit. */
+.ep-footer { background: var(--ep-bar-bg); color: #bfccc9; font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); }
+.ep-footer-inner { max-width: 1280px; margin: 0 auto; min-height: 56px; padding: var(--ep-space-2) var(--ep-space-6); box-sizing: border-box; display: flex; align-items: center; justify-content: space-between; gap: var(--ep-space-4); flex-wrap: wrap; }
+.ep-footer a { color: inherit; text-decoration: none; border-radius: var(--ep-radius-sm); }
+.ep-footer a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.ep-footer a:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.ep-footer-social { display: flex; align-items: center; gap: var(--ep-space-2); }
+.ep-footer-social ul { display: flex; gap: var(--ep-space-1); list-style: none; margin: 0; padding: 0; }
+.ep-footer-social a { display: inline-flex; width: 32px; height: 32px; align-items: center; justify-content: center; }
+.ep-footer-social a:hover { background: rgba(255, 255, 255, 0.10); text-decoration: none; }
+.ep-footer-contact { font-weight: var(--ep-weight-medium); }
+@media (max-width: 767px) { .ep-footer-inner { flex-direction: column; align-items: flex-start; gap: var(--ep-space-2); } }
+
+/* ---------- Notice strip + announcement list: LOCKED by owner 29 Aug 2026 (specs/footer-notice.md) ----------
+   Figma 18:80: #faf2db, 1 px #e5d9b2, r8, 12/16 padding, 20 icon box, text
+   11/16 500, ✕ right. 102:139: white card, rows 12/17 with NEW badge or 5 px
+   bullet, "(PDF)" as text. Ours: text 12/16, icon 20 Phosphor, dismiss = 32 px
+   button. Blue = normal, yellow (--urgent) = high priority. List = hairline rows,
+   PDF as a tertiary button pinned right. */
+.ep-notice { display: flex; align-items: center; gap: var(--ep-space-3); padding: var(--ep-space-3) var(--ep-space-4); background: #ecf2fd; border: 1px solid #c9d9f6; border-radius: var(--ep-radius-md); color: var(--ep-card-ink); font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-medium); box-sizing: border-box; }
+.ep-notice .ep-notice-icon { width: 20px; height: 20px; flex-shrink: 0; color: #1d5bbf; }
+.ep-notice-icon .ep-icon { width: 20px; height: 20px; }
+.ep-notice-text { flex: 1 0 0; min-width: 0; margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 0 6px; }
+.ep-notice-text a:not(.ep-btn) { color: var(--ux4g-color-primary-600); font-weight: var(--ep-weight-semibold); text-decoration: underline; text-underline-offset: 3px; }
+.ep-notice-text .ep-btn { margin: -8px 0; }
+.ep-notice-close { width: 32px; height: 32px; margin: -8px -8px -8px 0; border: 0; background: transparent; color: var(--ep-card-muted); border-radius: var(--ep-radius-sm); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+.ep-notice-close:hover { background: rgba(23, 23, 23, 0.06); color: var(--ep-card-ink); }
+.ep-notice-close:focus-visible { outline: 2px solid var(--ux4g-color-primary-600); outline-offset: 2px; }
+.ep-notice-close .ep-icon { width: 16px; height: 16px; }
+.ep-notice--urgent { background: #faf2db; border-color: #e5d9b2; }
+.ep-notice--urgent .ep-notice-icon { color: #8a6d0b; }
+
+.ep-announce { margin: 0; padding: 0 var(--ep-space-4); list-style: none; background: #fff; border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); }
+.ep-announce li { display: flex; align-items: center; justify-content: space-between; gap: var(--ep-space-4); min-height: 44px; padding: var(--ep-space-1) 0; border-top: 1px solid var(--ux4g-color-neutral-200); font-size: var(--ep-text-sm); line-height: 20px; color: var(--ep-card-ink); }
+.ep-announce li:first-child { border-top: 0; }
+.ep-announce-text { flex: 1 1 auto; padding: var(--ep-space-2) 0; }
+.ep-announce li > .ep-btn { flex-shrink: 0; margin-right: calc(-1 * var(--ep-space-3)); }
+.ep-foot-demo { display: flex; flex-direction: column; gap: 16px; }
+.ep-foot-demo .ep-notice, .ep-foot-demo .ep-announce { max-width: 832px; }
+
+/* ---------- Page shell + Quick Links rail (backlog item 8; rail placement) ----------
+   Figma 22:2 / 14:66: 1280 frame, main column 1112 with 20 inset, rail 168
+   flush right, white, #d9dbe0 left border, full body height. Ours: rail 200
+   (owner), so main = 1080 with 24 insets; rail sticks under the sticky header
+   (navbar 80 + nav row 48 = 128). Under 1024 the rail drops below the main
+   column as a card with rows in a grid (proposal, owner to verify). */
+.ep-shell { --ep-rail-w: max(200px, 16vw);   /* 200 floor (16vw crosses it at 1250); 16 % of the viewport above, no cap (owner) */ display: grid; grid-template-columns: minmax(0, 1fr) var(--ep-rail-w); align-items: stretch; }   /* rail on the viewport's right edge; 200 floor, 16 % above (owner) */
+.ep-main { min-width: 0; width: 100%; padding: var(--ep-space-6); padding-left: calc(max(0px, (100vw - 1280px) / 2) + var(--ep-space-6));   /* header box offset + its 24 gutter */ box-sizing: border-box; }   /* fluid: viewport minus rail; left edge lines up with the header's 1280 box (owner, 29 Aug 2026) */
+.ep-rail-col { background: var(--ux4g-color-neutral-0); border-left: 1px solid var(--ep-card-border); }
+.ep-rail { position: sticky; top: 128px; padding: var(--ep-space-2); box-sizing: border-box; }
+.ep-rail-title { margin: 0 0 var(--ep-space-2); padding: var(--ep-space-2) var(--ep-space-2) 0; font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); }
+@media (max-width: 1023px) {
+  .ep-shell { grid-template-columns: minmax(0, 1fr); }
+  .ep-rail-col { border-left: 0; background: transparent; padding: 0 var(--ep-space-6) var(--ep-space-6); }
+  .ep-rail { position: static; padding: var(--ep-space-2); background: var(--ux4g-color-neutral-0); border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); }
+  .ep-card-row--rail { display: grid; grid-template-columns: repeat(auto-fill, minmax(184px, 1fr)); gap: var(--ep-space-1) var(--ep-space-2); }
+}
+@media (max-width: 767px) {
+  .ep-main { padding: var(--ep-space-4); }
+  .ep-rail-col { padding: 0 var(--ep-space-4) var(--ep-space-4); }
+}
+/* Narrow screens: Figma's fixed widths (services 832, wide row 760, row card
+   373) give way; rows wrap, cards fill the column. Desktop keeps Figma numbers. */
+@media (max-width: 1023px) {
+  .ep-services, .ep-card-row, .ep-card-row--wide { width: auto; max-width: 100%; }
+  .ep-card-row { flex-wrap: wrap; }
+  .ep-card--row { width: 100%; max-width: 373px; }
+  .ep-btn-demo, .ep-field-demo, .ep-foot-demo { max-width: 100%; overflow-x: auto; }
+}
+
+/* ================================================================
+   App shell (index.html): guest header, login page (Figma 102:110)
+   ================================================================ */
+.ep-app-body { min-height: 100vh; display: flex; flex-direction: column; }
+.ep-app { flex: 1 0 auto; }
+.ep-app-body > .ep-footer { margin-top: auto; }
+/* Guest (not signed in): Figma 102:130 has brand only. No nav row, chip, bell, Logout. */
+.is-guest .ep-navrow, .is-guest .ep-notif, .is-guest .ep-uan, .is-guest .ep-header .ep-btn, .is-guest .ep-menu-btn { display: none; }
+/* Passbook portal: no search in the nav row or the phone panel (owner, 29 Aug 2026) */
+[data-page="portal"] .ep-search-form, [data-page="portal"] .ep-mobile-search { display: none; }
+
+/* Login: 832 main + 380 rail inside the 1280 box, 24 gutters, 20 between, 18 above (Figma 102:135). */
+.ep-shell--login { max-width: 1280px; margin: 0 auto; grid-template-columns: minmax(0, 1fr) 380px; gap: 20px; padding: 18px 24px 24px; box-sizing: border-box; }
+.ep-main--login { padding: 0; max-width: none; display: flex; flex-direction: column; gap: var(--ep-space-4); }
+.ep-login-rail { background: #fff; border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); padding: var(--ep-space-4) 20px; box-sizing: border-box; display: flex; flex-direction: column; gap: var(--ep-space-3); align-self: start; }
+.ep-login-title { margin: 0; font-size: var(--ep-text-lg); line-height: 24px; font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); }   /* Figma 16/23 700 */
+.ep-login-form { display: flex; flex-direction: column; gap: var(--ep-space-4); }   /* 16: owner wanted air before the buttons */
+.ep-login-actions { display: flex; gap: var(--ep-space-3); }
+.ep-login-actions .ep-btn { flex: 1 0 0; }
+.ep-divider { display: flex; align-items: center; gap: var(--ep-space-3); padding-top: var(--ep-space-2); font-size: var(--ep-text-xs); line-height: var(--ep-leading-xs); font-weight: var(--ep-weight-medium); color: var(--ep-card-muted); }
+.ep-divider::before, .ep-divider::after { content: ""; flex: 1 0 0; height: 1px; background: var(--ep-card-border); }
+.ep-login-rail .ep-card-row--cta { width: 100%; }
+@media (max-width: 1023px) {
+  .ep-shell--login { grid-template-columns: minmax(0, 1fr); padding: 18px 24px 24px; }
+  .ep-login-rail { order: -1; }   /* sign-in first on narrow screens */
+}
+@media (max-width: 767px) { .ep-shell--login { padding: 16px; } }
+.ep-field-link { align-self: flex-start; }   /* helper-position link under a field (login: Forgot Password ?) */
+
+/* ---------- Dashboard (Figma 14:66) ----------
+   Content 18:2: profile 296 + 16 + right 760. Cards: white, #d9dbe0, r8, p16.
+   Type lifted to the scale (11 → 12 titles, 10 → 11 subs, 700 → 600). */
+.ep-main--dash { display: grid; grid-template-columns: 296px minmax(0, 1fr); gap: var(--ep-space-4); align-items: start; }
+.ep-dash-right { display: flex; flex-direction: column; gap: var(--ep-space-4); min-width: 0; }
+.ep-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* profile card 75:2 */
+.ep-profile { background: #fff; border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); padding: 20px 20px var(--ep-space-4); display: flex; flex-direction: column; gap: var(--ep-space-3); }
+.ep-profile-identity { display: flex; flex-direction: column; align-items: center; gap: var(--ep-space-2); padding-bottom: var(--ep-space-1); border-bottom: 1px solid var(--ux4g-color-neutral-200); }
+.ep-profile-identity .ep-badge { margin-bottom: var(--ep-space-2); }
+.ep-avatar { width: 88px; height: 88px; border-radius: 50%; background: #eeeafc; color: var(--ux4g-color-primary-600); display: inline-flex; align-items: center; justify-content: center; font-size: 28px; line-height: 32px; font-weight: var(--ep-weight-semibold); letter-spacing: 0.02em; }
+.ep-profile-name { margin: 0; font-size: 16px; line-height: 20px; font-weight: var(--ep-weight-semibold); color: var(--ux4g-color-neutral-900); text-align: center; }   /* Figma 15/20 700 */
+.ep-profile-meta { margin: 0; font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); color: var(--ux4g-color-neutral-500); }
+.ep-kyc { list-style: none; margin: 0; padding: 0 0 var(--ep-space-3); display: flex; flex-direction: column; gap: var(--ep-space-3); border-bottom: 1px solid var(--ux4g-color-neutral-200); }
+.ep-kyc-row { display: flex; flex-direction: column; gap: var(--ep-space-1); }
+.ep-kyc-label { font-size: var(--ep-text-xs); line-height: var(--ep-leading-xs); color: var(--ux4g-color-neutral-500); }   /* Figma 10.5/14 */
+.ep-kyc-value { display: flex; align-items: center; justify-content: space-between; gap: var(--ep-space-2); }
+.ep-kyc-data { font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-semibold); color: var(--ux4g-color-neutral-900); }
+.ep-kyc-data--muted { color: var(--ux4g-color-neutral-500); }
+.ep-verified { position: relative; width: 20px; height: 20px; border-radius: 50%; background: #e7f6ee; color: #0e7a4d; display: inline-flex; align-items: center; justify-content: center; }
+.ep-verified .ep-icon { width: 12px; height: 12px; }
+.ep-profile-more { align-self: center; }
+
+/* stat cards 18:32 / 18:45 / 18:59 */
+.ep-stat-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--ep-space-4); }
+.ep-stat { background: #fff; border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); padding: var(--ep-space-4); display: flex; flex-direction: column; gap: var(--ep-space-2); min-width: 0; }
+.ep-stat-head { display: flex; align-items: center; gap: var(--ep-space-3); }
+.ep-stat-title { margin: 0; font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); }   /* Figma 11/16 */
+.ep-stat-value { margin: 0; font-size: 20px; line-height: 28px; font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); font-variant-numeric: tabular-nums; }   /* Figma 20/29 700 */
+.ep-stat-sub { margin: 0; font-size: var(--ep-text-xs); line-height: var(--ep-leading-xs); color: var(--ep-card-muted); }   /* Figma 10/15 */
+.ep-stat-claim { margin: 0; font-size: var(--ep-text-md); line-height: var(--ep-leading-md); font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); }   /* Figma 13/19 */
+.ep-stat .ep-badge { align-self: flex-start; }
+.ep-share-bar { display: flex; height: 8px; border-radius: var(--ep-radius-sm); overflow: hidden; background: #0e7a4d; }   /* employee share = remainder, green */
+.ep-share-bar-a { display: block; width: 61%; height: 100%; background: #8c9499; }             /* employer share, grey (Figma 18:50) */
+.ep-share-split { display: flex; gap: var(--ep-space-4); }
+.ep-share-split > div { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.ep-share-value { margin: 0; font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); font-variant-numeric: tabular-nums; }   /* Figma 12.5/18 700 */
+.ep-dash-right .ep-card-row--wide { width: 100%; }
+.ep-dash-right .ep-card--row { width: auto; flex: 1 0 0; }
+.ep-dash-right .ep-notice { margin-top: var(--ep-space-2); }
+@media (max-width: 1023px) {
+  .ep-main--dash { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 767px) {
+  .ep-stat-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* ---------- Passbook Lite (Figma 22:2) ----------
+   Page head 24:2, three stat cards 348 wide, entries card 24:34 with a dark
+   table header (#12102e), rows 40, zebra #f9fafb. Type lifted: 10.5 → 12. */
+.ep-main--pb { display: flex; flex-direction: column; gap: var(--ep-space-4); }
+.ep-stat-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ep-entries { background: #fff; border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); padding: var(--ep-space-4); display: flex; flex-direction: column; gap: var(--ep-space-3); }
+.ep-entries-head { display: flex; align-items: center; justify-content: space-between; gap: var(--ep-space-4); }
+.ep-entries-title { margin: 0; font-size: var(--ep-text-md); line-height: var(--ep-leading-md); font-weight: var(--ep-weight-semibold); color: var(--ux4g-color-neutral-900); }
+.ep-entries-controls { display: flex; align-items: center; gap: var(--ep-space-2); }
+.ep-select-wrap { position: relative; display: inline-flex; }
+.ep-select { appearance: none; -webkit-appearance: none; height: 32px; padding: 0 32px 0 var(--ep-space-3); border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); background: #fff; color: var(--ep-card-ink); font-family: inherit; font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-medium); cursor: pointer; }
+.ep-select:hover { border-color: #c4c8cf; }
+.ep-select:focus-visible { outline: 2px solid var(--ux4g-color-primary-600); outline-offset: 2px; }
+.ep-select-caret { position: absolute; right: 10px; top: 50%; width: 14px; height: 14px; margin-top: -7px; color: var(--ep-card-muted); pointer-events: none; }
+.ep-icon-btn { width: 32px; height: 32px; border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); background: var(--ux4g-color-neutral-100); color: var(--ep-card-ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: background-color 0.15s; }
+.ep-icon-btn .ep-icon { width: 18px; height: 18px; }
+.ep-icon-btn:hover { background: var(--ux4g-color-neutral-200); }
+.ep-icon-btn:focus-visible { outline: 2px solid var(--ux4g-color-primary-600); outline-offset: 2px; }
+.ep-table-wrap { border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); overflow: auto; }
+.ep-table { width: 100%; border-collapse: collapse; font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); color: var(--ep-card-ink); }
+.ep-table th, .ep-table td { padding: var(--ep-space-3) 14px; text-align: left; white-space: nowrap; }
+.ep-table thead th { background: var(--ep-bar-bg); color: var(--ux4g-color-neutral-100); font-weight: var(--ep-weight-semibold); height: 44px; box-sizing: border-box; }
+.ep-table tbody tr { height: 40px; }
+.ep-table tbody tr:nth-child(even) { background: #f9fafb; }
+.ep-table tbody th { font-weight: var(--ep-weight-semibold); }
+.ep-table .ep-num { text-align: right; font-variant-numeric: tabular-nums; }
+.ep-table .ep-mono { font-variant-numeric: tabular-nums; letter-spacing: 0.02em; }
+.ep-table tbody tr:hover { background: var(--ep-card-hover-bg); }
+
+/* toast 24:134: bottom centre, error tone. */
+.ep-toast { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 200; max-width: min(560px, calc(100vw - 32px)); display: flex; align-items: center; gap: var(--ep-space-3); padding: var(--ep-space-3) 14px var(--ep-space-3) var(--ep-space-4); background: #fff; border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14); font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); color: var(--ep-card-ink); }
+.ep-toast--error { background: #fceded; border-color: #edbfbf; }
+.ep-toast-icon { width: 20px; height: 20px; flex-shrink: 0; color: #b3261e; }
+.ep-toast-icon .ep-icon { width: 20px; height: 20px; }
+.ep-toast-text { margin: 0; }
+.ep-toast-close { width: 32px; height: 32px; margin: -6px -8px -6px 0; border: 0; background: transparent; color: var(--ep-card-muted); border-radius: var(--ep-radius-sm); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; }
+.ep-toast-close .ep-icon { width: 16px; height: 16px; }
+.ep-toast-close:hover { background: rgba(23, 23, 23, 0.06); color: var(--ep-card-ink); }
+.ep-toast-close:focus-visible { outline: 2px solid var(--ux4g-color-primary-600); outline-offset: 2px; }
+@media (max-width: 1023px) { .ep-stat-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .ep-stat-grid--3 { grid-template-columns: minmax(0, 1fr); } .ep-entries-head { flex-wrap: wrap; } }
+
+/* ---------- Consent 22:130 and redirect 22:66: passbook page + scrim + dialog ----------
+   Scrim #141a1a at 60 % over the body (header stays clear: z below the
+   sticky header). Dialog 460 / 440 wide, p32, r12, shadow 0 12 36 24 %. */
+.ep-scrim { position: fixed; inset: 0; background: rgba(20, 26, 26, 0.6); z-index: 90; }
+.ep-dialog { position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 95; width: min(460px, calc(100vw - 32px)); box-sizing: border-box; padding: 32px; background: #fff; border-radius: 12px; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.24); display: flex; flex-direction: column; align-items: center; gap: var(--ep-space-3); text-align: center; }
+.ep-dialog:focus { outline: none; }
+.ep-dialog--redirect { width: min(440px, calc(100vw - 32px)); }
+.ep-dialog-icon { width: 56px; height: 56px; border-radius: 50%; background: #eeeafc; color: var(--ux4g-color-primary-600); display: inline-flex; align-items: center; justify-content: center; }
+.ep-dialog-icon .ep-icon { width: 28px; height: 28px; }
+.ep-dialog-title { margin: 0; font-size: var(--ep-text-lg); line-height: 24px; font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); }   /* Figma 16/23 700 */
+.ep-dialog-body { margin: 0; font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); color: var(--ep-card-muted); }   /* Figma 11.5/17 */
+.ep-dialog-lead { margin: 0; font-size: var(--ep-text-md); line-height: var(--ep-leading-md); font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); }   /* Figma 12.5/18 */
+.ep-check { display: flex; align-items: center; gap: var(--ep-space-3); width: 100%; box-sizing: border-box; padding: var(--ep-space-2) var(--ep-space-3); background: var(--ux4g-color-neutral-100); border-radius: var(--ep-radius-md); font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-medium); color: var(--ep-card-ink); text-align: left; cursor: pointer; }
+.ep-check-input { width: 16px; height: 16px; margin: 0; accent-color: var(--ux4g-color-primary-600); flex-shrink: 0; cursor: pointer; }
+.ep-check-input:focus-visible { outline: 2px solid var(--ux4g-color-primary-600); outline-offset: 2px; }
+.ep-dialog-actions { display: flex; gap: var(--ep-space-3); width: 100%; padding-top: var(--ep-space-1); }
+.ep-dialog-actions .ep-btn { flex: 1 0 0; }
+.ep-hop { display: flex; align-items: center; gap: 28px; padding: var(--ep-space-2) 0 var(--ep-space-1); }
+.ep-hop-end { display: flex; flex-direction: column; align-items: center; gap: var(--ep-space-2); }
+.ep-hop-circle { width: 56px; height: 56px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
+.ep-hop-circle .ep-icon { width: 28px; height: 28px; }
+.ep-hop-circle--from { background: #eeeafc; color: var(--ux4g-color-primary-600); }
+.ep-hop-circle--to { background: #eaf6f2; color: #1b7f68; }
+.ep-hop-label { font-size: var(--ep-text-xs); line-height: var(--ep-leading-xs); font-weight: var(--ep-weight-medium); color: var(--ep-card-muted); white-space: nowrap; }   /* Figma 10.5/15 */
+.ep-hop-dots { display: inline-flex; align-items: center; gap: 6px; color: var(--ux4g-color-primary-600); }
+.ep-hop-dots i { width: 5px; height: 5px; border-radius: 50%; background: currentColor; animation: ep-dot 1.2s ease-in-out infinite; }
+.ep-hop-dots i:nth-child(2) { animation-delay: 0.2s; }
+.ep-hop-dots i:nth-child(3) { animation-delay: 0.4s; }
+.ep-hop-caret { width: 14px; height: 14px; }
+@keyframes ep-dot { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+.ep-progress { width: 220px; height: 4px; border-radius: 2px; background: var(--ux4g-color-neutral-100); overflow: hidden; margin-top: var(--ep-space-1); }
+.ep-progress-bar { display: block; width: 100%; height: 100%; background: var(--ux4g-color-primary-600); transform: scaleX(0); transform-origin: left; transition: transform 3s linear; }
+.ep-progress.is-running .ep-progress-bar { transform: scaleX(1); }
+@media (prefers-reduced-motion: reduce) {
+  .ep-hop-dots i { animation: none; opacity: 1; }
+  .ep-progress-bar { transition: none; }
+}
+
+/* ---------- Passbook portal (Figma 35:79) ----------
+   Owner: same header and components, no rail, brand reads "Passbook Portal".
+   Sub-nav 35:121 (42 tall, tabs 30), hero 40:9 (#0b5136), three cards 40:28. */
+.ep-subnav { background: #fff; border-bottom: 1px solid var(--ep-card-border); }
+.ep-subnav-list { list-style: none; margin: 0 auto; padding: 6px var(--ep-space-6); max-width: 1280px; box-sizing: border-box; display: flex; gap: 6px; overflow-x: auto; }
+.ep-tab { display: inline-flex; align-items: center; height: 30px; padding: 0 var(--ep-space-3); border-radius: var(--ep-radius-md); font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-medium); color: var(--ep-card-muted); text-decoration: none; white-space: nowrap; transition: background-color 0.15s, color 0.15s; }   /* Figma 11/16, r5 */
+.ep-tab:hover { background: var(--ux4g-color-neutral-50); color: var(--ep-card-ink); }
+.ep-tab.is-active { background: var(--ux4g-color-neutral-100); color: var(--ux4g-color-primary-600); font-weight: var(--ep-weight-semibold); }
+.ep-tab:focus-visible { outline: 2px solid var(--ux4g-color-primary-600); outline-offset: 2px; }
+.ep-shell--wide { grid-template-columns: minmax(0, 1fr); max-width: 1280px; margin: 0 auto; }
+.ep-shell--wide .ep-main { padding: 18px var(--ep-space-6) var(--ep-space-6); max-width: none; }   /* no rail, so both insets are the plain 24 */
+.ep-main--portal { display: flex; flex-direction: column; gap: var(--ep-space-4); }
+.ep-page-head .ep-btn .ep-icon { width: 16px; height: 16px; }
+.ep-hero { display: flex; align-items: center; gap: 28px; padding: var(--ep-space-4) var(--ep-space-6); background: #fff; color: var(--ep-card-ink); border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); }   /* owner: white card (Figma green #0b5136 rejected) */
+.ep-hero-total { flex: 1 0 0; min-width: 0; display: flex; flex-direction: column; gap: var(--ep-space-1); }
+.ep-hero-label { font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-medium); color: var(--ep-card-muted); }   /* 11.5/17 */
+.ep-hero-value { font-size: 28px; line-height: 36px; font-weight: var(--ep-weight-semibold); font-variant-numeric: tabular-nums; color: var(--ux4g-color-primary-600); }   /* 28/41 700 */
+.ep-hero-facts { display: flex; gap: 28px; margin: 0; }
+.ep-hero-facts > div { display: flex; flex-direction: column-reverse; gap: var(--ep-space-1); }
+.ep-hero-facts dt { font-size: var(--ep-text-xs); line-height: var(--ep-leading-xs); color: var(--ep-card-muted); }   /* 10/15 */
+.ep-hero-facts dd { margin: 0; font-size: var(--ep-text-md); line-height: var(--ep-leading-md); font-weight: var(--ep-weight-semibold); font-variant-numeric: tabular-nums; }   /* 13/19 700 */
+.ep-portal-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--ep-space-4); align-items: stretch; margin-top: var(--ep-space-2); }   /* 16 + 8 = 24 under the hero (owner) */
+.ep-pblock { display: flex; flex-direction: column; min-width: 0; }   /* heading outside the card, like the dashboard sections (owner) */
+.ep-pblock .ep-section-title { margin-bottom: 12px; }
+.ep-pcard { flex: 1 0 auto; background: #fff; border: 1px solid var(--ep-card-border); border-radius: var(--ep-radius-md); padding: var(--ep-space-4); display: flex; flex-direction: column; gap: var(--ep-space-3); min-width: 0; }   /* Figma p18 gap14 */
+.ep-chart { flex: 1 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--ep-space-4); }
+.ep-donut { width: 150px; height: 150px; }
+.ep-donut-big { font-size: 24px; font-weight: 600; fill: var(--ep-card-ink); font-family: inherit; }
+.ep-donut-small { font-size: 11px; fill: var(--ep-card-muted); font-family: inherit; }
+.ep-legend { list-style: none; margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column; gap: var(--ep-space-2); }
+.ep-legend li { display: flex; align-items: center; gap: var(--ep-space-2); font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); }
+.ep-legend-swatch { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+.ep-legend-swatch--you { background: #0e7a4d; }
+.ep-legend-swatch--employer { background: #8c9499; }   /* 3.1:1 on white; matches the share bar */
+.ep-legend-label { flex: 1 0 0; color: var(--ep-card-muted); }
+.ep-legend-value { font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); font-variant-numeric: tabular-nums; }
+.ep-members { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--ep-space-2); flex: 1 0 auto; }
+.ep-member { background: var(--ux4g-color-neutral-100); border-radius: var(--ep-radius-md); padding: var(--ep-space-2) var(--ep-space-3); display: flex; flex-direction: column; gap: var(--ep-space-1); }
+.ep-member-top { display: flex; gap: var(--ep-space-2); align-items: center; font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-semibold); }
+.ep-member-n { color: var(--ep-card-muted); }
+.ep-member-id { color: var(--ep-card-ink); letter-spacing: 0.02em; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; }   /* never clip an account number */
+.ep-member-id--current { color: var(--ux4g-color-primary-600); }
+.ep-member-bottom { display: flex; justify-content: space-between; align-items: center; gap: var(--ep-space-2); font-size: var(--ep-text-xs); line-height: var(--ep-leading-xs); color: var(--ep-card-muted); }
+.ep-member-amt { font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); font-variant-numeric: tabular-nums; }
+.ep-members-total { display: flex; justify-content: space-between; align-items: center; padding-top: var(--ep-space-2); border-top: 1px solid var(--ux4g-color-neutral-200); font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-medium); color: var(--ep-card-muted); }
+.ep-members-total-amt { font-size: var(--ep-text-md); line-height: var(--ep-leading-md); font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); font-variant-numeric: tabular-nums; }
+.ep-details { display: flex; flex-direction: column; gap: var(--ep-space-3); }
+.ep-detail { display: flex; flex-direction: column; gap: 2px; }
+.ep-detail-label { font-size: var(--ep-text-xs); line-height: var(--ep-leading-xs); color: var(--ep-card-muted); }
+.ep-detail-value { font-size: var(--ep-text-sm); line-height: var(--ep-leading-sm); font-weight: var(--ep-weight-semibold); color: var(--ep-card-ink); overflow-wrap: anywhere; }
+@media (max-width: 1023px) { .ep-portal-grid { grid-template-columns: minmax(0, 1fr); } .ep-hero { flex-direction: column; align-items: flex-start; gap: var(--ep-space-4); } .ep-hero-facts { flex-wrap: wrap; gap: var(--ep-space-4) 28px; } }
+@media (max-width: 767px) { .ep-shell--wide .ep-main { padding: var(--ep-space-4); } .ep-page-head { flex-direction: column; align-items: flex-start; gap: var(--ep-space-3); } }
+
+
+
+/* page change: old view fades out, new view fades up. One motion moment, shared curve. */
+.ep-app { transition: opacity 0.12s ease-in; }
+.ep-app.is-leaving { opacity: 0; }
+.ep-app.is-entering > * { animation: ep-page-in 0.24s var(--ep-ease-out) both; }
+@keyframes ep-page-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .ep-app { transition: none; } .ep-app.is-entering > * { animation: none; } }

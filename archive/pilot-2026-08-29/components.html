@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Components — EPFO prototype</title>
+  <link rel="stylesheet" href="pilot.css?v=56">
+</head>
+<body>
+<!-- Phosphor Icons (regular), MIT, inlined: the one-origin rule allows no icon CDN -->
+<svg class="ep-sprite" hidden aria-hidden="true">
+  <symbol id="ph-address-book" viewBox="0 0 256 256"><path d="M83.19,174.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,163,141.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,81.6,163.2,8,8,0,0,0,83.19,174.4ZM112,112a24,24,0,1,1,24,24A24,24,0,0,1,112,112Zm96-88H64A16,16,0,0,0,48,40V64H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v40H32a8,8,0,0,0,0,16H48v24a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V40A16,16,0,0,0,208,24Zm0,192H64V40H208Z"/></symbol>
+  <symbol id="ph-arrow-right" viewBox="0 0 256 256"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></symbol>
+  <symbol id="ph-arrows-left-right" viewBox="0 0 256 256"><path d="M213.66,181.66l-32,32a8,8,0,0,1-11.32-11.32L188.69,184H48a8,8,0,0,1,0-16H188.69l-18.35-18.34a8,8,0,0,1,11.32-11.32l32,32A8,8,0,0,1,213.66,181.66Zm-139.32-64a8,8,0,0,0,11.32-11.32L67.31,88H208a8,8,0,0,0,0-16H67.31L85.66,53.66A8,8,0,0,0,74.34,42.34l-32,32a8,8,0,0,0,0,11.32Z"/></symbol>
+  <symbol id="ph-arrows-merge" viewBox="0 0 256 256"><path d="M192,40v64a8,8,0,0,1-2.34,5.66L136,163.31v49.38l18.34-18.35a8,8,0,0,1,11.32,11.32l-32,32a8,8,0,0,1-11.32,0l-32-32a8,8,0,0,1,11.32-11.32L120,212.69V163.31L66.34,109.66A8,8,0,0,1,64,104V40a8,8,0,0,1,16,0v60.69l48,48,48-48V40a8,8,0,0,1,16,0Z"/></symbol>
+  <symbol id="ph-bell" viewBox="0 0 256 256"><path d="M221.8,175.94C216.25,166.38,208,139.33,208,104a80,80,0,1,0-160,0c0,35.34-8.26,62.38-13.81,71.94A16,16,0,0,0,48,200H88.81a40,40,0,0,0,78.38,0H208a16,16,0,0,0,13.8-24.06ZM128,216a24,24,0,0,1-22.62-16h45.24A24,24,0,0,1,128,216ZM48,184c7.7-13.24,16-43.92,16-80a64,64,0,1,1,128,0c0,36.05,8.28,66.73,16,80Z"/></symbol>
+  <symbol id="ph-book-open" viewBox="0 0 256 256"><path d="M232,48H160a40,40,0,0,0-32,16A40,40,0,0,0,96,48H24a8,8,0,0,0-8,8V200a8,8,0,0,0,8,8H96a24,24,0,0,1,24,24,8,8,0,0,0,16,0,24,24,0,0,1,24-24h72a8,8,0,0,0,8-8V56A8,8,0,0,0,232,48ZM96,192H32V64H96a24,24,0,0,1,24,24V200A39.81,39.81,0,0,0,96,192Zm128,0H160a39.81,39.81,0,0,0-24,8V88a24,24,0,0,1,24-24h64Z"/></symbol>
+  <symbol id="ph-chat-circle" viewBox="0 0 256 256"><path d="M128,24A104,104,0,0,0,36.18,176.88L24.83,210.93a16,16,0,0,0,20.24,20.24l34.05-11.35A104,104,0,1,0,128,24Zm0,192a87.87,87.87,0,0,1-44.06-11.81,8,8,0,0,0-6.54-.67L40,216,52.47,178.6a8,8,0,0,0-.66-6.54A88,88,0,1,1,128,216Z"/></symbol>
+  <symbol id="ph-clock-counter-clockwise" viewBox="0 0 256 256"><path d="M136,80v43.47l36.12,21.67a8,8,0,0,1-8.24,13.72l-40-24A8,8,0,0,1,120,128V80a8,8,0,0,1,16,0Zm-8-48A95.44,95.44,0,0,0,60.08,60.15C52.81,67.51,46.35,74.59,40,82V64a8,8,0,0,0-16,0v40a8,8,0,0,0,8,8H72a8,8,0,0,0,0-16H49c7.15-8.42,14.27-16.35,22.39-24.57a80,80,0,1,1,1.66,114.75,8,8,0,1,0-11,11.64A96,96,0,1,0,128,32Z"/></symbol>
+  <symbol id="ph-device-mobile" viewBox="0 0 256 256"><path d="M176,16H80A24,24,0,0,0,56,40V216a24,24,0,0,0,24,24h96a24,24,0,0,0,24-24V40A24,24,0,0,0,176,16ZM72,64H184V192H72Zm8-32h96a8,8,0,0,1,8,8v8H72V40A8,8,0,0,1,80,32Zm96,192H80a8,8,0,0,1-8-8v-8H184v8A8,8,0,0,1,176,224Z"/></symbol>
+  <symbol id="ph-hand-coins" viewBox="0 0 256 256"><path d="M230.33,141.06a24.43,24.43,0,0,0-21.24-4.23l-41.84,9.62A28,28,0,0,0,140,112H89.94a31.82,31.82,0,0,0-22.63,9.37L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9ZM164,96a36,36,0,0,0,5.9-.48,36,36,0,1,0,28.22-47A36,36,0,1,0,164,96Zm60-12a20,20,0,1,1-20-20A20,20,0,0,1,224,84ZM164,40a20,20,0,0,1,19.25,14.61,36,36,0,0,0-15,24.93A20.42,20.42,0,0,1,164,80a20,20,0,0,1,0-40Z"/></symbol>
+  <symbol id="ph-identification-card" viewBox="0 0 256 256"><path d="M200,112a8,8,0,0,1-8,8H152a8,8,0,0,1,0-16h40A8,8,0,0,1,200,112Zm-8,24H152a8,8,0,0,0,0,16h40a8,8,0,0,0,0-16Zm40-80V200a16,16,0,0,1-16,16H40a16,16,0,0,1-16-16V56A16,16,0,0,1,40,40H216A16,16,0,0,1,232,56ZM216,200V56H40V200H216Zm-80.26-34a8,8,0,1,1-15.5,4c-2.63-10.26-13.06-18-24.25-18s-21.61,7.74-24.25,18a8,8,0,1,1-15.5-4,39.84,39.84,0,0,1,17.19-23.34,32,32,0,1,1,45.12,0A39.76,39.76,0,0,1,135.75,166ZM96,136a16,16,0,1,0-16-16A16,16,0,0,0,96,136Z"/></symbol>
+  <symbol id="ph-list-checks" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H128a8,8,0,0,1,0-16h88A8,8,0,0,1,224,128ZM128,72h88a8,8,0,0,0,0-16H128a8,8,0,0,0,0,16Zm88,112H128a8,8,0,0,0,0,16h88a8,8,0,0,0,0-16ZM82.34,42.34,56,68.69,45.66,58.34A8,8,0,0,0,34.34,69.66l16,16a8,8,0,0,0,11.32,0l32-32A8,8,0,0,0,82.34,42.34Zm0,64L56,132.69,45.66,122.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Zm0,64L56,196.69,45.66,186.34a8,8,0,0,0-11.32,11.32l16,16a8,8,0,0,0,11.32,0l32-32a8,8,0,0,0-11.32-11.32Z"/></symbol>
+  <symbol id="ph-lock-key" viewBox="0 0 256 256"><path d="M128,112a28,28,0,0,0-8,54.83V184a8,8,0,0,0,16,0V166.83A28,28,0,0,0,128,112Zm0,40a12,12,0,1,1,12-12A12,12,0,0,1,128,152Zm80-72H176V56a48,48,0,0,0-96,0V80H48A16,16,0,0,0,32,96V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V96A16,16,0,0,0,208,80ZM96,56a32,32,0,0,1,64,0V80H96ZM208,208H48V96H208V208Z"/></symbol>
+  <symbol id="ph-magnifying-glass" viewBox="0 0 256 256"><path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"/></symbol>
+  <symbol id="ph-person-arms-spread" viewBox="0 0 256 256"><path d="M160,40a32,32,0,1,0-32,32A32,32,0,0,0,160,40ZM128,56a16,16,0,1,1,16-16A16,16,0,0,1,128,56ZM231.5,87.71A19.62,19.62,0,0,0,212,72H44a20,20,0,0,0-8.38,38.16l.13,0,50.75,22.35-21,79.72A20,20,0,0,0,102,228.8l26-44.87,26,44.87a20,20,0,0,0,36.4-16.52l-21-79.72,50.75-22.35.13,0A19.64,19.64,0,0,0,231.5,87.71Zm-17.8,7.9-56.93,25.06a8,8,0,0,0-4.51,9.36L175.13,217a7,7,0,0,0,.49,1.35,4,4,0,0,1-5,5.45,4,4,0,0,1-2.25-2.07,6.31,6.31,0,0,0-.34-.63L134.92,164a8,8,0,0,0-13.84,0L88,221.05a6.31,6.31,0,0,0-.34.63,4,4,0,0,1-2.25,2.07,4,4,0,0,1-5-5.45,7,7,0,0,0,.49-1.35L103.74,130a8,8,0,0,0-4.51-9.36L42.3,95.61A4,4,0,0,1,44,88H212a4,4,0,0,1,1.73,7.61Z"/></symbol>
+  <symbol id="ph-shield-check" viewBox="0 0 256 256"><path d="M208,40H48A16,16,0,0,0,32,56v56c0,52.72,25.52,84.67,46.93,102.19,23.06,18.86,46,25.26,47,25.53a8,8,0,0,0,4.2,0c1-.27,23.91-6.67,47-25.53C198.48,196.67,224,164.72,224,112V56A16,16,0,0,0,208,40Zm0,72c0,37.07-13.66,67.16-40.6,89.42A129.3,129.3,0,0,1,128,223.62a128.25,128.25,0,0,1-38.92-21.81C61.82,179.51,48,149.3,48,112l0-56,160,0ZM82.34,141.66a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35a8,8,0,0,1,11.32,11.32l-56,56a8,8,0,0,1-11.32,0Z"/></symbol>
+  <symbol id="ph-sign-out" viewBox="0 0 256 256"><path d="M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z"/></symbol>
+  <symbol id="ph-user-circle" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24ZM74.08,197.5a64,64,0,0,1,107.84,0,87.83,87.83,0,0,1-107.84,0ZM96,120a32,32,0,1,1,32,32A32,32,0,0,1,96,120Zm97.76,66.41a79.66,79.66,0,0,0-36.06-28.75,48,48,0,1,0-59.4,0,79.66,79.66,0,0,0-36.06,28.75,88,88,0,1,1,131.52,0Z"/></symbol>
+  <symbol id="ph-user" viewBox="0 0 256 256"><path d="M230.92,212c-15.23-26.33-38.7-45.21-66.09-54.16a72,72,0,1,0-73.66,0C63.78,166.78,40.31,185.66,25.08,212a8,8,0,1,0,13.85,8c18.84-32.56,52.14-52,89.07-52s70.23,19.44,89.07,52a8,8,0,1,0,13.85-8ZM72,96a56,56,0,1,1,56,56A56.06,56.06,0,0,1,72,96Z"/></symbol>
+  <symbol id="ph-users-three" viewBox="0 0 256 256"><path d="M244.8,150.4a8,8,0,0,1-11.2-1.6A51.6,51.6,0,0,0,192,128a8,8,0,0,1-7.37-4.89,8,8,0,0,1,0-6.22A8,8,0,0,1,192,112a24,24,0,1,0-23.24-30,8,8,0,1,1-15.5-4A40,40,0,1,1,219,117.51a67.94,67.94,0,0,1,27.43,21.68A8,8,0,0,1,244.8,150.4ZM190.92,212a8,8,0,1,1-13.84,8,57,57,0,0,0-98.16,0,8,8,0,1,1-13.84-8,72.06,72.06,0,0,1,33.74-29.92,48,48,0,1,1,58.36,0A72.06,72.06,0,0,1,190.92,212ZM128,176a32,32,0,1,0-32-32A32,32,0,0,0,128,176ZM72,120a8,8,0,0,0-8-8A24,24,0,1,1,87.24,82a8,8,0,1,0,15.5-4A40,40,0,1,0,37,117.51,67.94,67.94,0,0,0,9.6,139.19a8,8,0,1,0,12.8,9.61A51.6,51.6,0,0,1,64,128,8,8,0,0,0,72,120Z"/></symbol>
+  <symbol id="ph-list" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"/></symbol>
+  <symbol id="ph-x" viewBox="0 0 256 256"><path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/></symbol>
+  <symbol id="ph-identification-badge" viewBox="0 0 256 256"><path d="M75.19,198.4a8,8,0,0,0,11.21-1.6,52,52,0,0,1,83.2,0,8,8,0,1,0,12.8-9.6A67.88,67.88,0,0,0,155,165.51a40,40,0,1,0-53.94,0A67.88,67.88,0,0,0,73.6,187.2,8,8,0,0,0,75.19,198.4ZM128,112a24,24,0,1,1-24,24A24,24,0,0,1,128,112Zm72-88H56A16,16,0,0,0,40,40V216a16,16,0,0,0,16,16H200a16,16,0,0,0,16-16V40A16,16,0,0,0,200,24Zm0,192H56V40H200ZM88,64a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H96A8,8,0,0,1,88,64Z"/></symbol>
+  <symbol id="ph-user-plus" viewBox="0 0 256 256"><path d="M256,136a8,8,0,0,1-8,8H232v16a8,8,0,0,1-16,0V144H200a8,8,0,0,1,0-16h16V112a8,8,0,0,1,16,0v16h16A8,8,0,0,1,256,136Zm-57.87,58.85a8,8,0,0,1-12.26,10.3C165.75,181.19,138.09,168,108,168s-57.75,13.19-77.87,37.15a8,8,0,0,1-12.25-10.3c14.94-17.78,33.52-30.41,54.17-37.17a68,68,0,1,1,71.9,0C164.6,164.44,183.18,177.07,198.13,194.85ZM108,152a52,52,0,1,0-52-52A52.06,52.06,0,0,0,108,152Z"/></symbol>
+  <symbol id="ph-link" viewBox="0 0 256 256"><path d="M240,88.23a54.43,54.43,0,0,1-16,37L189.25,160a54.27,54.27,0,0,1-38.63,16h-.05A54.63,54.63,0,0,1,96,119.84a8,8,0,0,1,16,.45A38.62,38.62,0,0,0,150.58,160h0a38.39,38.39,0,0,0,27.31-11.31l34.75-34.75a38.63,38.63,0,0,0-54.63-54.63l-11,11A8,8,0,0,1,135.7,59l11-11A54.65,54.65,0,0,1,224,48,54.86,54.86,0,0,1,240,88.23ZM109,185.66l-11,11A38.41,38.41,0,0,1,70.6,208h0a38.63,38.63,0,0,1-27.29-65.94L78,107.31A38.63,38.63,0,0,1,144,135.71a8,8,0,0,0,16,.45A54.86,54.86,0,0,0,144,96a54.65,54.65,0,0,0-77.27,0L32,130.75A54.62,54.62,0,0,0,70.56,224h0a54.28,54.28,0,0,0,38.64-16l11-11A8,8,0,0,0,109,185.66Z"/></symbol>
+  <symbol id="ph-hand-heart" viewBox="0 0 256 256"><path d="M230.33,141.06a24.34,24.34,0,0,0-18.61-4.77C230.5,117.33,240,98.48,240,80c0-26.47-21.29-48-47.46-48A47.58,47.58,0,0,0,156,48.75,47.58,47.58,0,0,0,119.46,32C93.29,32,72,53.53,72,80c0,11,3.24,21.69,10.06,33a31.87,31.87,0,0,0-14.75,8.4L44.69,144H16A16,16,0,0,0,0,160v40a16,16,0,0,0,16,16H120a7.93,7.93,0,0,0,1.94-.24l64-16a6.94,6.94,0,0,0,1.19-.4L226,182.82l.44-.2a24.6,24.6,0,0,0,3.93-41.56ZM119.46,48A31.15,31.15,0,0,1,148.6,67a8,8,0,0,0,14.8,0,31.15,31.15,0,0,1,29.14-19C209.59,48,224,62.65,224,80c0,19.51-15.79,41.58-45.66,63.9l-11.09,2.55A28,28,0,0,0,140,112H100.68C92.05,100.36,88,90.12,88,80,88,62.65,102.41,48,119.46,48ZM16,160H40v40H16Zm203.43,8.21-38,16.18L119,200H56V155.31l22.63-22.62A15.86,15.86,0,0,1,89.94,128H140a12,12,0,0,1,0,24H112a8,8,0,0,0,0,16h32a8.32,8.32,0,0,0,1.79-.2l67-15.41.31-.08a8.6,8.6,0,0,1,6.3,15.9Z"/></symbol>
+  <symbol id="ph-question" viewBox="0 0 256 256"><path d="M140,180a12,12,0,1,1-12-12A12,12,0,0,1,140,180ZM128,72c-22.06,0-40,16.15-40,36v4a8,8,0,0,0,16,0v-4c0-11,10.77-20,24-20s24,9,24,20-10.77,20-24,20a8,8,0,0,0-8,8v8a8,8,0,0,0,16,0v-.72c18.24-3.35,32-17.9,32-35.28C168,88.15,150.06,72,128,72Zm104,56A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/></symbol>
+  <symbol id="ph-warning-circle" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm-8-80V80a8,8,0,0,1,16,0v56a8,8,0,0,1-16,0Zm20,36a12,12,0,1,1-12-12A12,12,0,0,1,140,172Z"/></symbol>
+  <symbol id="ph-check-bold" viewBox="0 0 256 256"><path d="M232.49,80.49l-128,128a12,12,0,0,1-17,0l-56-56a12,12,0,1,1,17-17L96,183,215.51,63.51a12,12,0,0,1,17,17Z"/></symbol>
+  <symbol id="ph-facebook-logo" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,191.63V152h24a8,8,0,0,0,0-16H136V112a16,16,0,0,1,16-16h16a8,8,0,0,0,0-16H152a32,32,0,0,0-32,32v24H96a8,8,0,0,0,0,16h24v63.63a88,88,0,1,1,16,0Z"/></symbol>
+  <symbol id="ph-x-logo" viewBox="0 0 256 256"><path d="M214.75,211.71l-62.6-98.38,61.77-67.95a8,8,0,0,0-11.84-10.76L143.24,99.34,102.75,35.71A8,8,0,0,0,96,32H48a8,8,0,0,0-6.75,12.3l62.6,98.37-61.77,68a8,8,0,1,0,11.84,10.76l58.84-64.72,40.49,63.63A8,8,0,0,0,160,224h48a8,8,0,0,0,6.75-12.29ZM164.39,208,62.57,48h29L193.43,208Z"/></symbol>
+  <symbol id="ph-instagram-logo" viewBox="0 0 256 256"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160ZM176,24H80A56.06,56.06,0,0,0,24,80v96a56.06,56.06,0,0,0,56,56h96a56.06,56.06,0,0,0,56-56V80A56.06,56.06,0,0,0,176,24Zm40,152a40,40,0,0,1-40,40H80a40,40,0,0,1-40-40V80A40,40,0,0,1,80,40h96a40,40,0,0,1,40,40ZM192,76a12,12,0,1,1-12-12A12,12,0,0,1,192,76Z"/></symbol>
+  <symbol id="ph-youtube-logo" viewBox="0 0 256 256"><path d="M164.44,121.34l-48-32A8,8,0,0,0,104,96v64a8,8,0,0,0,12.44,6.66l48-32a8,8,0,0,0,0-13.32ZM120,145.05V111l25.58,17ZM234.33,69.52a24,24,0,0,0-14.49-16.4C185.56,39.88,131,40,128,40s-57.56-.12-91.84,13.12a24,24,0,0,0-14.49,16.4C19.08,79.5,16,97.74,16,128s3.08,48.5,5.67,58.48a24,24,0,0,0,14.49,16.41C69,215.56,120.4,216,127.34,216h1.32c6.94,0,58.37-.44,91.18-13.11a24,24,0,0,0,14.49-16.41c2.59-10,5.67-28.22,5.67-58.48S236.92,79.5,234.33,69.52Zm-15.49,113a8,8,0,0,1-4.77,5.49c-31.65,12.22-85.48,12-86,12H128c-.54,0-54.33.2-86-12a8,8,0,0,1-4.77-5.49C34.8,173.39,32,156.57,32,128s2.8-45.39,5.16-54.47A8,8,0,0,1,41.93,68c30.52-11.79,81.66-12,85.85-12h.27c.54,0,54.38-.18,86,12a8,8,0,0,1,4.77,5.49C221.2,82.61,224,99.43,224,128S221.2,173.39,218.84,182.47Z"/></symbol>
+  <symbol id="ph-linkedin-logo" viewBox="0 0 256 256"><path d="M216,24H40A16,16,0,0,0,24,40V216a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V40A16,16,0,0,0,216,24Zm0,192H40V40H216V216ZM96,112v64a8,8,0,0,1-16,0V112a8,8,0,0,1,16,0Zm88,28v36a8,8,0,0,1-16,0V140a20,20,0,0,0-40,0v36a8,8,0,0,1-16,0V112a8,8,0,0,1,15.79-1.78A36,36,0,0,1,184,140ZM100,84A12,12,0,1,1,88,72,12,12,0,0,1,100,84Z"/></symbol>
+  <symbol id="ph-file-pdf" viewBox="0 0 256 256"><path d="M224,152a8,8,0,0,1-8,8H192v16h16a8,8,0,0,1,0,16H192v16a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8h32A8,8,0,0,1,224,152ZM92,172a28,28,0,0,1-28,28H56v8a8,8,0,0,1-16,0V152a8,8,0,0,1,8-8H64A28,28,0,0,1,92,172Zm-16,0a12,12,0,0,0-12-12H56v24h8A12,12,0,0,0,76,172Zm88,8a36,36,0,0,1-36,36H112a8,8,0,0,1-8-8V152a8,8,0,0,1,8-8h16A36,36,0,0,1,164,180Zm-16,0a20,20,0,0,0-20-20h-8v40h8A20,20,0,0,0,148,180ZM40,112V40A16,16,0,0,1,56,24h96a8,8,0,0,1,5.66,2.34l56,56A8,8,0,0,1,216,88v24a8,8,0,0,1-16,0V96H152a8,8,0,0,1-8-8V40H56v72a8,8,0,0,1-16,0ZM160,80h28.69L160,51.31Z"/></symbol>
+  <symbol id="ph-megaphone" viewBox="0 0 256 256"><path d="M248,120a48.05,48.05,0,0,0-48-48H160.2c-2.91-.17-53.62-3.74-101.91-44.24A16,16,0,0,0,32,40V200a16,16,0,0,0,26.29,12.25c37.77-31.68,77-40.76,93.71-43.3v31.72A16,16,0,0,0,159.12,214l11,7.33A16,16,0,0,0,194.5,212l11.77-44.36A48.07,48.07,0,0,0,248,120ZM48,199.93V40h0c42.81,35.91,86.63,45,104,47.24v65.48C134.65,155,90.84,164.07,48,199.93Zm131,8,0,.11-11-7.33V168h21.6ZM200,152H168V88h32a32,32,0,1,1,0,64Z"/></symbol>
+  <symbol id="ph-info" viewBox="0 0 256 256"><path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm0,192a88,88,0,1,1,88-88A88.1,88.1,0,0,1,128,216Zm16-40a8,8,0,0,1-8,8,16,16,0,0,1-16-16V128a8,8,0,0,1,0-16,16,16,0,0,1,16,16v40A8,8,0,0,1,144,176ZM112,84a12,12,0,1,1,12,12A12,12,0,0,1,112,84Z"/></symbol>
+  <symbol id="ep-caret-right" viewBox="0 0 12 12"><path d="M4.5 2.5 8 6l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<!-- Band 1: accessibility bar (Figma 62:2). Sibling of the header so it can scroll away while the header sticks -->
+<div class="ep-bar">
+  <div class="ep-bar-inner">
+    <span>Accessibility bar</span>
+    <div class="ep-bar-options">
+      <a href="#main">Skip to Main Content</a>
+      <span class="ep-bar-divider" aria-hidden="true"></span>
+      <div class="ep-bar-fontsize" role="group" aria-label="Font size">
+        <button type="button" data-text="-" aria-label="Smaller text">A−</button>
+        <button type="button" data-text="0" aria-label="Normal text" aria-pressed="true">A</button>
+        <button type="button" data-text="+" aria-label="Bigger text">A+</button>
+      </div>
+      <span class="ep-bar-divider" aria-hidden="true"></span>
+      <button type="button" class="ep-bar-iconbtn" aria-label="Accessibility options"><svg class="ep-icon ep-icon-20" aria-hidden="true" focusable="false"><use href="#ph-person-arms-spread"/></svg></button>
+      <span class="ep-bar-divider" aria-hidden="true"></span>
+      <button type="button" class="ep-bar-lang" aria-haspopup="listbox" aria-expanded="false">
+        <span>English</span>
+        <svg class="ep-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Bands 2+3 stick as one card, as on ux4g.gov.in -->
+<header class="ep-header">
+  <div class="ep-navcard">
+
+  <!-- Band 2: navbar (Figma 62:25) — UX4G navbar shell -->
+  <nav class="ep-navbar" aria-label="Account">
+    <div class="ep-navbar-inner">
+      <div class="ep-brand">
+        <span class="ep-logo">
+          <img src="assets/logo.png" alt="" width="34" height="40">
+        </span>
+        <span class="ep-brand-label"><span class="ep-brand-full">EMPLOYEES' PROVIDENT FUND ORGANISATION</span><abbr class="ep-brand-short" title="Employees' Provident Fund Organisation">EPFO</abbr></span>
+      </div>
+      <div class="ep-navbar-right">
+        <a class="ep-notif" href="#" aria-label="3 notifications">
+          <svg class="ep-icon ep-icon-24" aria-hidden="true" focusable="false"><use href="#ph-bell"/></svg>
+          <span class="ep-count">3</span>
+        </a>
+        <a class="ep-uan" href="#">
+          <svg class="ep-icon ep-icon-24" aria-hidden="true" focusable="false"><use href="#ph-user-circle"/></svg>
+          <span class="ep-uan-copy">
+            <span class="ep-uan-id">UAN: 1000 2233 4455</span>
+            <span class="ep-uan-name">ASHA VERMA</span>
+          </span>
+        </a>
+        <button type="button" class="ep-btn ep-btn--primary">Logout</button>
+        <button type="button" class="ep-menu-btn" aria-label="Main menu" aria-expanded="false" aria-controls="mobile-menu">
+          <svg class="ep-icon ep-icon-22 ep-menu-open" aria-hidden="true" focusable="false"><use href="#ph-list"/></svg>
+          <svg class="ep-icon ep-icon-22 ep-menu-close" aria-hidden="true" focusable="false"><use href="#ph-x"/></svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Band 3: nav row (Figma 62:590) -->
+  <nav class="ep-navrow" aria-label="Main">
+    <div class="ep-navrow-inner">
+    <ul class="ep-navlist">
+      <li class="ep-navitem" aria-current="page">
+        <a class="ep-navlink" href="#">Home</a>
+      </li>
+      <li class="ep-navitem ep-has-menu">
+        <button type="button" class="ep-navlink" aria-haspopup="true" aria-expanded="false" aria-controls="menu-view">View <svg class="ep-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="ep-mega" id="menu-view" hidden>
+          <div class="ep-mega-body">
+            <div class="ep-mega-col">
+              <ul class="ep-mega-list">
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-user"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Profile</span><span class="ep-mega-desc">Your details, as EPFO holds them</span></span></a></li>
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-clock-counter-clockwise"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Service history</span><span class="ep-mega-desc">Every employer, with dates</span></span></a></li>
+              </ul>
+            </div>
+            <div class="ep-mega-col">
+              <ul class="ep-mega-list">
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-identification-card"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">UAN card</span><span class="ep-mega-desc">Download or print</span></span></a></li>
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-book-open"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Passbook</span><span class="ep-mega-desc">Quick view here; full passbook opens on the passbook site</span></span></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ep-mega-foot">
+            <span>Everything under View, in plain English.</span>
+            <a href="#">See all view options <svg class="ep-arrow" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+      </li>
+      <li class="ep-navitem ep-has-menu">
+        <button type="button" class="ep-navlink" aria-haspopup="true" aria-expanded="false" aria-controls="menu-manage">Manage <svg class="ep-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="ep-mega" id="menu-manage" hidden>
+          <div class="ep-mega-body">
+            <div class="ep-mega-col">
+              <ul class="ep-mega-list">
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-identification-badge"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Basic details</span><span class="ep-mega-desc">Name, date of birth, gender</span></span></a></li>
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-address-book"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Contact details</span><span class="ep-mega-desc">Mobile, email, address</span></span></a></li>
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-shield-check"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">KYC</span><span class="ep-mega-desc">Aadhaar, PAN, bank account</span></span></a></li>
+              </ul>
+            </div>
+            <div class="ep-mega-col">
+              <ul class="ep-mega-list">
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-users-three"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">e-Nomination</span><span class="ep-mega-desc">Who gets the money if you die</span></span></a></li>
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-sign-out"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Mark exit</span><span class="ep-mega-desc">Tell EPFO you left a job</span></span></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ep-mega-foot">
+            <span>Everything under Manage, in plain English.</span>
+            <a href="#">See all manage options <svg class="ep-arrow" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+      </li>
+      <li class="ep-navitem ep-has-menu">
+        <button type="button" class="ep-navlink" aria-haspopup="true" aria-expanded="false" aria-controls="menu-account">Account <svg class="ep-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="ep-mega" id="menu-account" hidden>
+          <div class="ep-mega-body">
+            <div class="ep-mega-col">
+              <ul class="ep-mega-list">
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-lock-key"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Change password</span><span class="ep-mega-desc">Needs your current one</span></span></a></li>
+              </ul>
+            </div>
+            <div class="ep-mega-col">
+              <ul class="ep-mega-list">
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-device-mobile"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Change login details</span><span class="ep-mega-desc">Mobile number used for OTP</span></span></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ep-mega-foot">
+            <span>Everything under Account, in plain English.</span>
+            <a href="#">See all account options <svg class="ep-arrow" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+      </li>
+      <li class="ep-navitem ep-has-menu">
+        <button type="button" class="ep-navlink" aria-haspopup="true" aria-expanded="false" aria-controls="menu-online-services">Online Services <svg class="ep-chevron" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="ep-mega" id="menu-online-services" hidden>
+          <div class="ep-mega-body">
+            <div class="ep-mega-col">
+              <ul class="ep-mega-list">
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-hand-coins"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Claim (Form 31, 19, 10C)</span><span class="ep-mega-desc">Withdraw part or all of your money</span></span></a></li>
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-arrows-merge"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">One member, one EPF account</span><span class="ep-mega-desc">Merge old accounts into this one</span></span></a></li>
+              </ul>
+            </div>
+            <div class="ep-mega-col">
+              <ul class="ep-mega-list">
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-list-checks"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Track claim status</span><span class="ep-mega-desc">See where a claim has reached</span></span></a></li>
+            <li><a class="ep-mega-item" href="#"><span class="ep-mega-icon" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-arrows-left-right"/></svg></span><span class="ep-mega-text"><span class="ep-mega-title">Transfer request</span><span class="ep-mega-desc">Move money from an old employer</span></span></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="ep-mega-foot">
+            <span>Everything under Online Services, in plain English.</span>
+            <a href="#">See all online services options <svg class="ep-arrow" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false"><path d="M2.5 7h9M8 3.5 11.5 7 8 10.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          </div>
+        </div>
+      </li>
+      <li class="ep-navitem">
+        <a class="ep-navlink" href="#">PMVBRY</a>
+      </li>
+    </ul>
+    <form class="ep-search-form" role="search">
+      <div class="ep-search">
+        <svg class="ep-icon ep-search-lead" aria-hidden="true" focusable="false"><use href="#ph-magnifying-glass"/></svg>
+        <label for="site-search" class="visually-hidden" hidden>Search</label>
+        <input id="site-search" class="ep-search-input" type="search" placeholder="Search for...">
+        <button type="submit" class="ep-search-btn" aria-label="Search">
+          <svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-arrow-right"/></svg>
+        </button>
+      </div>
+    </form>
+    </div>
+  </nav>
+
+  <!-- Mobile menu. Built by pilot.js from the nav row + mega panels, so the
+       item list lives once. Shown below 768px, in flow, as on ux4g.gov.in. -->
+  <div class="ep-mobile" id="mobile-menu" hidden></div>
+
+  </div><!-- /ep-navcard -->
+</header>
+
+<div class="ep-shell">
+<main id="main" class="ep-pilot-main ep-main">
+  <!-- Component under test: service card, stack layout.
+       Figma 102:110 › 102:153 "Member services section". Plain copy chosen by the owner 29 Aug 2026; Figma originals in DECISIONS.md. -->
+  <section class="ep-services" aria-labelledby="services-heading">
+    <h2 class="ep-section-title" id="services-heading">Other member services</h2>
+    <ul class="ep-card-row">
+      <li><a class="ep-card ep-card--stack" href="#">
+        <span class="ep-card-icon ep-card-icon--teal" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-identification-badge"/></svg></span>
+        <span class="ep-card-title">Find your <span class="ep-card-last">UAN<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+        <span class="ep-card-desc">Look it up with your Aadhaar, PAN or PF number</span>
+      </a></li>
+      <li><a class="ep-card ep-card--stack" href="#">
+        <span class="ep-card-icon ep-card-icon--blue" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-user-plus"/></svg></span>
+        <span class="ep-card-title">Get a new <span class="ep-card-last">UAN<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+        <span class="ep-card-desc">Make your own number with Aadhaar. No employer needed</span>
+      </a></li>
+      <li><a class="ep-card ep-card--stack" href="#">
+        <span class="ep-card-icon ep-card-icon--green" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-link"/></svg></span>
+        <span class="ep-card-title">Link an old PF <span class="ep-card-last">account<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+        <span class="ep-card-desc">Get a UAN for a PF account that has none yet</span>
+      </a></li>
+      <li><a class="ep-card ep-card--stack" href="#">
+        <span class="ep-card-icon ep-card-icon--rose" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-hand-coins"/></svg></span>
+        <span class="ep-card-title">Claim PF after a <span class="ep-card-last">death<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+        <span class="ep-card-desc">For the nominee or family of a member who has died</span>
+      </a></li>
+      <li><a class="ep-card ep-card--stack" href="#">
+        <span class="ep-card-icon ep-card-icon--orange" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-hand-heart"/></svg></span>
+        <span class="ep-card-title">Claim family <span class="ep-card-last">pension<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+        <span class="ep-card-desc">Monthly pension for the family of a member who has died</span>
+      </a></li>
+    </ul>
+  </section>
+
+  <!-- Layout variants of the same component, for the eyeball pass. Figma: row 18:67, cta 102:194, rail 22:48. -->
+  <section class="ep-demo" aria-label="Service card layouts">
+    <h2 class="ep-section-title">What you can do <span class="ep-demo-tag">row · dashboard 14:66</span></h2>
+    <ul class="ep-card-row ep-card-row--wide">
+      <li><a class="ep-card ep-card--row" href="#">
+        <span class="ep-card-icon ep-card-icon--teal" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-hand-coins"/></svg></span>
+        <span class="ep-card-title">File a <span class="ep-card-last">claim<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+        <span class="ep-card-desc">Withdraw, take an advance or transfer your PF</span>
+      </a></li>
+      <li><a class="ep-card ep-card--row" href="#">
+        <span class="ep-card-icon ep-card-icon--blue" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-list-checks"/></svg></span>
+        <span class="ep-card-title">Track a <span class="ep-card-last">claim<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+        <span class="ep-card-desc">Check where your claim has reached</span>
+      </a></li>
+    </ul>
+    <h2 class="ep-section-title">No UAN access yet? <span class="ep-demo-tag">cta · login 102:110</span></h2>
+    <ul class="ep-card-row ep-card-row--cta">
+      <li><a class="ep-card ep-card--cta" href="#">
+        <span class="ep-card-icon ep-card-icon--purple" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-identification-badge"/></svg></span>
+        <span class="ep-card-title">Activate your <span class="ep-card-last">UAN<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span> <span class="ep-card-badge">New member</span>
+        <span class="ep-card-desc">Set a password and sign in for the first time</span>
+      </a></li>
+      <li><a class="ep-card ep-card--cta" href="#">
+        <span class="ep-card-icon ep-card-icon--purple" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-list-checks"/></svg></span>
+        <span class="ep-card-title">Track a <span class="ep-card-last">claim<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+        <span class="ep-card-desc">See where your claim has reached. No sign-in needed</span>
+      </a></li>
+    </ul>
+  </section>
+
+  <section class="ep-demo" aria-label="Button proposal">
+
+    <h2 class="ep-section-title">Buttons <span class="ep-demo-tag">locked · 14/20 semibold · 40 tall · r8</span></h2>
+    <div class="ep-btn-demo" role="group" aria-label="Button states">
+      <span class="ep-btn-demo-h"></span><span class="ep-btn-demo-h">default</span><span class="ep-btn-demo-h">hover</span><span class="ep-btn-demo-h">pressed</span><span class="ep-btn-demo-h">focus</span><span class="ep-btn-demo-h">disabled</span><span class="ep-btn-demo-h">loading</span>
+      <span class="ep-btn-demo-l">Sign in</span><button type="button" class="ep-btn ep-btn--primary ">Sign in</button><button type="button" class="ep-btn ep-btn--primary is-hover">Sign in</button><button type="button" class="ep-btn ep-btn--primary is-active">Sign in</button><button type="button" class="ep-btn ep-btn--primary is-focus">Sign in</button><button type="button" class="ep-btn ep-btn--primary is-disabled" disabled>Sign in</button><button type="button" class="ep-btn ep-btn--primary is-loading">Sign in</button>
+      <span class="ep-btn-demo-l">Reset</span><button type="button" class="ep-btn ep-btn--secondary ">Reset</button><button type="button" class="ep-btn ep-btn--secondary is-hover">Reset</button><button type="button" class="ep-btn ep-btn--secondary is-active">Reset</button><button type="button" class="ep-btn ep-btn--secondary is-focus">Reset</button><button type="button" class="ep-btn ep-btn--secondary is-disabled" disabled>Reset</button><button type="button" class="ep-btn ep-btn--secondary is-loading">Reset</button>
+      <span class="ep-btn-demo-l">View PDF</span><button type="button" class="ep-btn ep-btn--tertiary ">View PDF</button><button type="button" class="ep-btn ep-btn--tertiary is-hover">View PDF</button><button type="button" class="ep-btn ep-btn--tertiary is-active">View PDF</button><button type="button" class="ep-btn ep-btn--tertiary is-focus">View PDF</button><button type="button" class="ep-btn ep-btn--tertiary is-disabled" disabled>View PDF</button><button type="button" class="ep-btn ep-btn--tertiary is-loading">View PDF</button><span class="ep-btn-demo-l">Not Now</span><button type="button" class="ep-btn ep-btn--outline ">Not Now</button><button type="button" class="ep-btn ep-btn--outline is-hover">Not Now</button><button type="button" class="ep-btn ep-btn--outline is-active">Not Now</button><button type="button" class="ep-btn ep-btn--outline is-focus">Not Now</button><button type="button" class="ep-btn ep-btn--outline is-disabled" disabled>Not Now</button><button type="button" class="ep-btn ep-btn--outline is-loading">Not Now</button>
+    </div>
+
+
+    <h2 class="ep-section-title">In place: Figma pairs at 340 wide <span class="ep-demo-tag">login 102:184 · consent 26:291 · header 62:55</span></h2>
+    <div class="ep-btn-pairs">
+      <div class="ep-btn-pair"><button type="button" class="ep-btn ep-btn--primary">Sign in</button><button type="button" class="ep-btn ep-btn--secondary">Reset</button></div>
+      <div class="ep-btn-pair"><button type="button" class="ep-btn ep-btn--primary">Allow</button><button type="button" class="ep-btn ep-btn--outline">Not Now</button></div>
+      <div class="ep-btn-pair"><button type="button" class="ep-btn ep-btn--primary">Sign in</button><button type="button" class="ep-btn ep-btn--secondary">Reset</button></div>
+      <button type="button" class="ep-btn ep-btn--primary">Logout</button>
+    </div>
+  </section>
+
+  <section class="ep-demo" aria-label="Form field proposal">
+    <h2 class="ep-section-title">Form field <span class="ep-demo-tag">locked · login 102:178</span></h2>
+    <div class="ep-field-demo">
+      <span class="ep-field-demo-h">states</span>
+      <div class="ep-field">
+        <label class="ep-field-label" for="f1">UAN Number <span class="ep-field-req" aria-hidden="true">*</span></label>
+        <input class="ep-field-input" id="f1" type="text" inputmode="numeric" value="" placeholder="12-digit number">
+        <span class="ep-field-help">On your payslip, under UAN</span>
+        
+      </div>
+      <div class="ep-field">
+        <label class="ep-field-label" for="f2">UAN Number <span class="ep-field-req" aria-hidden="true">*</span></label>
+        <input class="ep-field-input is-hover" id="f2" type="text" inputmode="numeric" value="" placeholder="12-digit number">
+        
+        
+      </div>
+      <div class="ep-field">
+        <label class="ep-field-label" for="f3">UAN Number <span class="ep-field-req" aria-hidden="true">*</span></label>
+        <input class="ep-field-input is-focus" id="f3" type="text" inputmode="numeric" value="1000 2233 44" placeholder="">
+        
+        
+      </div>
+      <div class="ep-field">
+        <label class="ep-field-label" for="f4">UAN Number <span class="ep-field-req" aria-hidden="true">*</span></label>
+        <input class="ep-field-input" id="f4" type="text" inputmode="numeric" value="1000 2233 4455" placeholder="">
+        
+        
+      </div>
+      <div class="ep-field">
+        <label class="ep-field-label" for="f5">UAN Number <span class="ep-field-req" aria-hidden="true">*</span></label>
+        <input class="ep-field-input" id="f5" type="text" inputmode="numeric" value="1000 2233 4455" placeholder="" disabled>
+        
+        
+      </div>
+      <span class="ep-field-demo-h">error</span>
+      <div class="ep-field is-invalid">
+        <label class="ep-field-label" for="f8">UAN Number <span class="ep-field-req" aria-hidden="true">*</span></label>
+        <input class="ep-field-input" id="f8" type="text" inputmode="numeric" value="1000 2233 4455" placeholder="" aria-invalid="true" aria-describedby="f8-err">
+        
+        <span class="ep-field-error" id="f8-err" role="alert"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-warning-circle"/></svg><span>UAN not found. EPFO holds no record for 1000 2233 4455. Check the 12 digits on your payslip or Aadhaar-linked SMS, then try again. If it is right, your employer must file it first.</span></span>
+      </div>
+      <div class="ep-field is-invalid">
+        <label class="ep-field-label" for="f9">UAN Number <span class="ep-field-req" aria-hidden="true">*</span></label>
+        <input class="ep-field-input is-focus" id="f9" type="text" inputmode="numeric" value="1000 2233 4455" placeholder="" aria-invalid="true" aria-describedby="f9-err">
+        
+        <span class="ep-field-error" id="f9-err" role="alert"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-warning-circle"/></svg><span>UAN not found. EPFO holds no record for 1000 2233 4455. Check the 12 digits on your payslip or Aadhaar-linked SMS, then try again. If it is right, your employer must file it first.</span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="ep-demo" aria-label="Badge proposal">
+    <h2 class="ep-section-title">Badge / status chip <span class="ep-demo-tag">locked · 102:141 · 75:7 · 18:64</span></h2>
+    <div class="ep-badge-demo">
+      <div class="ep-badge-demo-row"><span class="ep-field-demo-h">tones</span>
+        <span class="ep-badge ep-badge--new">New</span>
+        <span class="ep-badge ep-badge--primary">New member</span>
+        <span class="ep-badge ep-badge--success"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-check-bold"/></svg>Active member</span>
+        <span class="ep-badge ep-badge--neutral">Under process · filed 12 Aug 2026</span>
+        <span class="ep-badge ep-badge--warning"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-warning-circle"/></svg>Action needed</span>
+      </div>
+      <div class="ep-badge-demo-row"><span class="ep-field-demo-h">beside a title</span>
+        <span class="ep-card-title">Activate your UAN</span> <span class="ep-badge ep-badge--primary">New member</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="ep-demo" aria-label="Heading and link proposal">
+    <h2 class="ep-section-title">Section heading, page head, text link <span class="ep-demo-tag">locked · 87:7 · 26:137 · 26:141 · 102:189</span></h2>
+    <div class="ep-head-demo">
+      <div class="ep-badge-demo-row"><span class="ep-field-demo-h">section</span></div>
+      <div class="ep-section-head"><h2 class="ep-section-title">Your EPF at a glance</h2><a class="ep-link" href="#">View all<svg class="ep-caret" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></a></div>
+      <div class="ep-badge-demo-row"><span class="ep-field-demo-h">page head</span></div>
+      <div class="ep-page-head"><div><h1 class="ep-page-title">Passbook Lite (Quick View)</h1><p class="ep-page-sub">A quick look at your recent contributions</p></div><a class="ep-link" href="#">View full passbook details<svg class="ep-caret" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></a></div>
+      <div class="ep-badge-demo-row"><span class="ep-field-demo-h">links: caret links underline on hover, inline links always</span>
+        <a class="ep-link" href="#">View all<svg class="ep-caret" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></a> <a class="ep-link is-hover" href="#">View all<svg class="ep-caret" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></a> <a class="ep-link is-focus" href="#">View all<svg class="ep-caret" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></a> <a class="ep-link ep-link--body" href="#">Forgot Password ?</a> <a class="ep-link ep-link--body" href="#">Verify now</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="ep-demo" aria-label="Footer proposal">
+    <h2 class="ep-section-title">Footer <span class="ep-demo-tag">locked · 102:203</span></h2>
+    <div class="ep-foot-demo">
+      <footer class="ep-footer"><div class="ep-footer-inner">
+        <span>Thu 27 August 2026 <span aria-hidden="true">·</span> CPV 1.0.27</span>
+        <div class="ep-footer-social"><span>Follow us</span><ul><li><a href="#" aria-label="EPFO on Facebook"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-facebook-logo"/></svg></a></li><li><a href="#" aria-label="EPFO on X"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-x-logo"/></svg></a></li><li><a href="#" aria-label="EPFO on Instagram"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-instagram-logo"/></svg></a></li><li><a href="#" aria-label="EPFO on YouTube"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-youtube-logo"/></svg></a></li><li><a href="#" aria-label="EPFO on LinkedIn"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-linkedin-logo"/></svg></a></li></ul></div>
+        <a class="ep-footer-contact" href="#">Contact Us</a>
+      </div></footer>
+    </div>
+  </section>
+  <section class="ep-demo" aria-label="Notice proposal">
+    <h2 class="ep-section-title">Notice strip and announcement list <span class="ep-demo-tag">locked · 18:80 · 102:139</span></h2>
+    <div class="ep-foot-demo">
+      <span class="ep-field-demo-h">strip, normal (blue)</span>
+      <div class="ep-notice" role="status"><span class="ep-notice-icon"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-megaphone"/></svg></span><p class="ep-notice-text"><span>Important notice about mobile number updation.</span> <a href="#">Read the notice</a> <a class="ep-btn ep-btn--tertiary ep-btn--sm" href="#"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-file-pdf"/></svg>View PDF</a></p><button type="button" class="ep-notice-close" aria-label="Dismiss"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-x"/></svg></button></div>
+      <span class="ep-field-demo-h">strip, high priority (yellow)</span>
+      <div class="ep-notice ep-notice--urgent" role="status"><span class="ep-notice-icon"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-megaphone"/></svg></span><p class="ep-notice-text"><span>Important notice about mobile number updation.</span> <a href="#">Read the notice</a> <a class="ep-btn ep-btn--tertiary ep-btn--sm" href="#"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-file-pdf"/></svg>View PDF</a></p><button type="button" class="ep-notice-close" aria-label="Dismiss"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-x"/></svg></button></div>
+      <span class="ep-field-demo-h">announcement list</span>
+      <ul class="ep-announce">
+        <li><span class="ep-announce-text">UAN activation for existing UANs and generation of new UANs can be done through the UMANG app. <span class="ep-badge ep-badge--new">New</span></span></li>
+        <li><span class="ep-announce-text">Benefits for Unorganised workers registering on the e-SHRAM portal.</span><a class="ep-btn ep-btn--tertiary ep-btn--sm" href="#"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-file-pdf"/></svg>View PDF</a></li>
+        <li><span class="ep-announce-text">Important notice about EDLI.</span><a class="ep-btn ep-btn--tertiary ep-btn--sm" href="#"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-file-pdf"/></svg>View PDF</a></li>
+        <li><span class="ep-announce-text">Filing of nominations is mandatory as per EPF Scheme, 2026. E-Nominations can be filed during service period.</span></li>
+      </ul>
+    </div>
+  </section>
+</main>
+<aside class="ep-rail-col" aria-labelledby="rail-title">
+  <div class="ep-rail">
+    <h2 class="ep-rail-title" id="rail-title">Quick Links</h2>
+    <ul class="ep-card-row ep-card-row--rail">
+      <li><a class="ep-card ep-card--rail" href="#">
+        <span class="ep-card-icon ep-card-icon--teal" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-book-open"/></svg></span>
+        <span class="ep-card-title">Passbook <span class="ep-card-last">Lite<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+      </a></li>
+      <li><a class="ep-card ep-card--rail" href="#">
+        <span class="ep-card-icon ep-card-icon--blue" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-hand-coins"/></svg></span>
+        <span class="ep-card-title">File <span class="ep-card-last">Claim<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+      </a></li>
+      <li><a class="ep-card ep-card--rail" href="#">
+        <span class="ep-card-icon ep-card-icon--green" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-list-checks"/></svg></span>
+        <span class="ep-card-title">Track <span class="ep-card-last">Claim<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+      </a></li>
+      <li><a class="ep-card ep-card--rail" href="#">
+        <span class="ep-card-icon ep-card-icon--rose" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-users-three"/></svg></span>
+        <span class="ep-card-title"><span class="ep-card-last">e-Nomination<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+      </a></li>
+      <li><a class="ep-card ep-card--rail" href="#">
+        <span class="ep-card-icon ep-card-icon--orange" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-clock-counter-clockwise"/></svg></span>
+        <span class="ep-card-title">Service <span class="ep-card-last">History<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+      </a></li>
+      <li><a class="ep-card ep-card--rail" href="#">
+        <span class="ep-card-icon ep-card-icon--teal" aria-hidden="true"><svg class="ep-icon" aria-hidden="true" focusable="false"><use href="#ph-question"/></svg></span>
+        <span class="ep-card-title"><span class="ep-card-last">Help<span class="ep-card-chevron" aria-hidden="true"><svg width="12" height="12" aria-hidden="true" focusable="false"><use href="#ep-caret-right"/></svg></span></span></span>
+      </a></li>
+    </ul>
+  </div>
+</aside>
+</div>
+
+<script src="pilot.js?v=4"></script>
+</body>
+</html>
